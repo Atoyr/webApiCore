@@ -21,26 +21,25 @@ namespace AuthorizationServer.Controllers
         // GET api/oauth
         [HttpGet]
         public async Task<string> GetAsync(
-            [FromQuery(Name="response_type")]string responseType,
-            [FromQuery(Name="client_id")]string clientId,
-            [FromQuery(Name="redirect_uri")]string redirectUri,
-            [FromQuery(Name="scope")]string scope,
-            [FromQuery(Name="state")]string state,
-            [FromQuery(Name="code_challenge")]string codeChallenge,
-            [FromQuery(Name="code_challege_method")]string codeChallegeMethod
+//            [FromQuery(Name="response_type")]string responseType,
+            //[FromQuery(Name="client_id")]string clientId,
+            //[FromQuery(Name="redirect_uri")]string redirectUri,
+            //[FromQuery(Name="scope")]string scope,
+            //[FromQuery(Name="state")]string state,
+            //[FromQuery(Name="code_challenge")]string codeChallenge,
+            //[FromQuery(Name="code_challege_method")]string codeChallegeMethod
+            [FromQuery]IDictionary<string,string> value
         )
         {
-            if(string.IsNullOrEmpty(responseType)) return null; 
+            var responseType = value.ContainsKey("response_type") ? value["response_type"] : String.Empty; 
+            if(string.IsNullOrEmpty(responseType)) return _context.ResponseTypeErrorMessage; 
             if(responseType.ToLower() ==  "code"){
-
+                return await _context.ResponseCodeAsync();
             } else if (responseType.ToLower() ==  "token"){
-
+                return await _context.ResponseTokenAsync();
             } else {
                 return null;
             }
-            //if (String.IsNullOrEmpty(response_type));
-            string code = "hoge";
-            return await Task.Run(() => $"{redirectUri ?? string.Empty}?code={code}&state={state}");
         }
 
 
