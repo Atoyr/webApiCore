@@ -21,22 +21,15 @@ namespace AuthorizationServer.Controllers
         // GET api/oauth
         [HttpGet]
         public async Task<string> GetAsync(
-//            [FromQuery(Name="response_type")]string responseType,
-            //[FromQuery(Name="client_id")]string clientId,
-            //[FromQuery(Name="redirect_uri")]string redirectUri,
-            //[FromQuery(Name="scope")]string scope,
-            //[FromQuery(Name="state")]string state,
-            //[FromQuery(Name="code_challenge")]string codeChallenge,
-            //[FromQuery(Name="code_challege_method")]string codeChallegeMethod
             [FromQuery]IDictionary<string,string> value
         )
         {
             var responseType = value.ContainsKey("response_type") ? value["response_type"] : String.Empty; 
             if(string.IsNullOrEmpty(responseType)) return _context.ResponseTypeErrorMessage; 
             if(responseType.ToLower() ==  "code"){
-                return await _context.ResponseCodeAsync();
+                return await _context.ResponseCodeAsync(value);
             } else if (responseType.ToLower() ==  "token"){
-                return await _context.ResponseTokenAsync();
+                return await _context.ResponseTokenAsync(value);
             } else {
                 return null;
             }
@@ -58,19 +51,7 @@ namespace AuthorizationServer.Controllers
             //param.Add("expires_in",value.grant_type);
             //param.Add("refresh_token",value.grant_type);
             //param.Add("scope",value.grant_type);
-            return await Task.Run(() => Json(param)); 
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return await Task.Run(() => Json(_context.ResponsePostAsync(value))); 
         }
     }
 }
