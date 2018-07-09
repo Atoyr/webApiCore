@@ -5,17 +5,13 @@ using AuthorizationServer.Interfaces;
 
 
 namespace AuthorizationServer.Services{
-    public class DummyOAuth : IOAuth{
-        public string RedirectUrl{set;get;} = "http://localhost:5000/api/oauth2"; 
-        public string ResponseTypeErrorMessage{set;get;} = "Not Setting ResponseType";
+    public  class OAuth : IOAuth{
+        public string RedirectUrl{set;get;} 
+        public string ResponseTypeErrorMessage{set;get;}
         public Task<string> ResponseCodeAsync(IDictionary<string,string> values){
             return Task.Run(() => "CodeAsync");
         }
         public Task<string> ResponseTokenAsync(IDictionary<string,string> values){
             return Task.Run(() => "TokenAsync");
-        }
-        public Task<string> ResponsePostAsync(IDictionary<string,string> values){
-            return Task.Run(() => "PostAsync");
-        }
-    }
+        }   }
 }

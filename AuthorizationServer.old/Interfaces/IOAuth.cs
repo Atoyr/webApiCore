@@ -9,6 +9,5 @@ namespace AuthorizationServer.Interfaces{
         string ResponseTypeErrorMessage{set;get;}
         Task<string> ResponseCodeAsync(IDictionary<string,string> values);
         Task<string> ResponseTokenAsync(IDictionary<string,string> values);
-        Task<string> ResponsePostAsync(IDictionary<string,string> values);
     }
 } 

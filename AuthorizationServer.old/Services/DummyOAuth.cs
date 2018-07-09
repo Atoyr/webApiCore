@@ -14,8 +14,5 @@ namespace AuthorizationServer.Services{
         public Task<string> ResponseTokenAsync(IDictionary<string,string> values){
             return Task.Run(() => "TokenAsync");
         }
-        public Task<string> ResponsePostAsync(IDictionary<string,string> values){
-            return Task.Run(() => "PostAsync");
-        }
     }
 }
