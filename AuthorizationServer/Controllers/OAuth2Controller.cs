@@ -40,6 +40,8 @@ namespace AuthorizationServer.Controllers
         [HttpPost, Consumes("application/x-www-form-urlencoded")]
         public async Task<IActionResult> PostAsync([FromForm]IDictionary<string,string> value)
         {
+            var grantType = value.ContainsKey("grant_type") ? value["grant_type"] : String.Empty;
+            if(string.IsNullOrEmpty(grantType)) return BadRequest();
             return await Task.Run(() => Json(_context.ResponsePostAsync(value))); 
         }
     }
