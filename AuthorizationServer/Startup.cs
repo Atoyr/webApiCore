@@ -27,6 +27,7 @@ namespace AuthorizationServer
         {
             services.AddTransient<IOAuth, DummyOAuth>();
             services.AddMvc();
+            services.Configure<GrAppSettings>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
