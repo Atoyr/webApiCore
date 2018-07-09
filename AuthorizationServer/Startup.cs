@@ -26,7 +26,14 @@ namespace AuthorizationServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IOAuth, DummyOAuth>();
-            services.AddMvc();
+            app.UseStaticFiles();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Home", action = "Index" });
+            });services.AddMvc();
+            
             services.Configure<GrAppSettings>(Configuration);
         }
 
