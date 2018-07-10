@@ -25,27 +25,27 @@ namespace AuthorizationServer.Controllers
             [FromQuery]IDictionary<string,string> value
         )
         {
-            var responseType = (value.ContainsKey("response_type") ? value["response_type"] : String.Empty).Split(' ');
+            var responseType = (value.FirstOrDefault(x => x.Key == "response_type").Value ?? string.Empty).Split(' ');
             //var hasOpenId = (value.ContainsKey("scope") ? value["scope"] : string.Empty).Split(' ').ContainsKey("openid");
             // 認可コードの取得
-            if(responseType.ContainsKey("code"))
+            if(responseType.Any(x => x == "code"))
             {
             }
             // アクセストークンの取得
-            if(responseType.ContainsKey("token"))
+            if(responseType.Any(x => x == "token"))
             {
             }
             // IDトークンの取得
-            if(responseType.ContainsKey("id_token"))
+            if(responseType.Any(x => x == "id_token"))
             {
             }
-            if(responseType.ToLower() ==  "code"){
+            //if(responseType.ToLower() ==  "code"){
                 return await _context.ResponseCodeAsync(value);
-            } else if (responseType.ToLower() ==  "token"){
-                return await _context.ResponseTokenAsync(value);
-            } else {
-                return null;
-            }
+            //} else if (responseType.ToLower() ==  "token"){
+                //return await _context.ResponseTokenAsync(value);
+            //} else {
+                //return null;
+            //}
         }
 
 
