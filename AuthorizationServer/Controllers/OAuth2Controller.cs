@@ -18,14 +18,27 @@ namespace AuthorizationServer.Controllers
         {
             _context = context;
         }
-        // GET api/oauth
+        // GET api/oauth2/authorize
+        [Route("authorize")]
         [HttpGet]
         public async Task<string> GetAsync(
             [FromQuery]IDictionary<string,string> value
         )
         {
-            var responseType = value.ContainsKey("response_type") ? value["response_type"] : String.Empty; 
-            if(string.IsNullOrEmpty(responseType)) return _context.ResponseTypeErrorMessage; 
+            var responseType = (value.ContainsKey("response_type") ? value["response_type"] : String.Empty).Split(' ');
+            //var hasOpenId = (value.ContainsKey("scope") ? value["scope"] : string.Empty).Split(' ').ContainsKey("openid");
+            // 認可コードの取得
+            if(responseType.ContainsKey("code"))
+            {
+            }
+            // アクセストークンの取得
+            if(responseType.ContainsKey("token"))
+            {
+            }
+            // IDトークンの取得
+            if(responseType.ContainsKey("id_token"))
+            {
+            }
             if(responseType.ToLower() ==  "code"){
                 return await _context.ResponseCodeAsync(value);
             } else if (responseType.ToLower() ==  "token"){
@@ -37,6 +50,7 @@ namespace AuthorizationServer.Controllers
 
 
         // POST api/oauth
+        [Route("access_token")]
         [HttpPost, Consumes("application/x-www-form-urlencoded")]
         public async Task<IActionResult> PostAsync([FromForm]IDictionary<string,string> value)
         {
