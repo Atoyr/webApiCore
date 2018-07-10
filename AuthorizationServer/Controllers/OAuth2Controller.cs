@@ -41,27 +41,24 @@ namespace AuthorizationServer.Controllers
         public async Task<IActionResult> PostAsync([FromForm]IDictionary<string,string> value)
         {
             var grantType = value.ContainsKey("grant_type") ? value["grant_type"] : String.Empty;
-            if(string.IsNullOrEmpty(grantType)) return Conflict();
             try
             {
-                if (grantType.ToLower() == "password") 
+                switch (grantType.ToLower())
                 {
-                    return Json(await _context.ResponcePasswordAsync(value));
-                }
-                else if (grantType.ToLower() == "client_credentials")
-                {
-                    return Json(await _context.ResponceClientCredentialsAsync(value));
-                }
-                else if (grantType.ToLower() == "refresh_token")
-                {
-                    return Json(await _context.ResponceRefreshTokenAsync(value));
+                    case "password":
+                        return Json(await _context.ResponcePasswordAsync(value));
+                    case "client_credentials":
+                        return Json(await _context.ResponceClientCredentialsAsync(value));
+                    case "refresh_token":
+                        return Json(await _context.ResponceRefreshTokenAsync(value));
+                    default :
+                        return Conflict();
                 }
             }
             catch(Exception )
             {
                 return Conflict(); 
             }
-            return Conflict();
         }
     }
 }
