@@ -1,3 +1,6 @@
+using System;
+using System.Data.SqlClient;
+using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+using WebClient.Models;
+
 
 namespace WebClient
 {
@@ -27,6 +33,8 @@ namespace WebClient
             {
                 configuration.RootPath = "ClientApp/build";
             });
+            var sqlConBuilder = new SqlConnectionStringBuilder();
+            services.Configure<SystemSettings>(this.Configuration.GetSection("SystemSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
