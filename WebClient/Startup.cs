@@ -29,6 +29,8 @@ namespace WebClient
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var key = this.Configuration["Jwt:Key"];
+            Console.WriteLine(key);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options => 
             {
@@ -38,11 +40,25 @@ namespace WebClient
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "http://localhost:5000/",
-                    ValidAudience = "http://localhost:5000/",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("hoge_Key"))
+                    ValidIssuer = "https://localhost:5001/",
+                    ValidAudience = "https://localhost:5001/",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+                };
+            })
+            .AddJwtBearer(Schemes.RefreshTokenScheme ,options => 
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = "https://localhost:5001/",
+                    ValidAudience = "https://localhost:5001/",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
                 };
             });
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             // In production, the React files will be served from this directory

@@ -18,7 +18,7 @@ namespace WebClient.Controllers
         };
 
         //[AllowAnonymous]
-        [HttpGet("[action]")]
+        [HttpGet("[action]"),Authorize]
         public IEnumerable<WeatherForecast> WeatherForecasts(int startDateIndex)
         {
             var rng = new Random();
