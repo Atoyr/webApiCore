@@ -12,7 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using WebClient.Models;
-
+using WebClient.Interfaces;
+using WebClient.Models.Sample;
 
 namespace WebClient
 {
@@ -50,7 +51,11 @@ namespace WebClient
                 configuration.RootPath = "ClientApp/build";
             });
             var sqlConBuilder = new SqlConnectionStringBuilder();
+
+
             services.Configure<SystemSettings>(this.Configuration.GetSection("SystemSettings"));
+            services.AddTransient<ITokenManager, TokenManager>();
+            services.AddTransient<IAuthManager, AuthManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
