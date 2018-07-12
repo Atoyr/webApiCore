@@ -29,8 +29,14 @@ namespace WebClient
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var key = this.Configuration["Jwt:Key"];
-            Console.WriteLine(key);
+            services.Configure<SystemSettings>(this.Configuration.GetSection("SystemSettings"));
+
+            var jwt = new Jwt{
+               Key = this.Configuration["Jwt:Key"] ,
+               Issuer = this.Configuration["Jwt:Issuer"] ,
+               Audience = this.Configuration["Jwt:Audience"]
+            };
+            Console.WriteLine($"{jwt.Key},{jwt.Issuer},{jwt.Audience}");
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options => 
             {
@@ -40,9 +46,9 @@ namespace WebClient
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "https://localhost:5001/",
-                    ValidAudience = "https://localhost:5001/",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+                    ValidIssuer = jwt.Issuer,
+                    ValidAudience = jwt.Audience, 
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key))
                 };
             })
             .AddJwtBearer(Schemes.RefreshTokenScheme ,options => 
@@ -53,9 +59,9 @@ namespace WebClient
                     ValidateAudience = false,
                     ValidateLifetime = false,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "https://localhost:5001/",
-                    ValidAudience = "https://localhost:5001/",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+                    ValidIssuer = jwt.Issuer,
+                    ValidAudience = jwt.Audience, 
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key))
                 };
             });
 
@@ -69,7 +75,6 @@ namespace WebClient
             var sqlConBuilder = new SqlConnectionStringBuilder();
 
 
-            services.Configure<SystemSettings>(this.Configuration.GetSection("SystemSettings"));
             services.AddTransient<ITokenManager, TokenManager>();
             services.AddTransient<IAuthManager, AuthManager>();
         }
