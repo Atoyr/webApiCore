@@ -1,14 +1,18 @@
 ﻿import React from 'react';
-import { Route } from 'react-router';
-import Layout from './components/Layout';
-import Home from './components/Home';
-import Counter from './components/Counter';
-import FetchData from './components/FetchData';
+import { Route , IndexRoute} from 'react-router';
+import UserOnly from './containers/auth/UserOnly';
+import GuestOnly from './containers/auth/GuestOnly';
+import DashBoard from './components/DashBoard';
+import Login from './containers/auth/Login';
+import Index from './containers/Index';
 
 export default () => (
-  <Layout>
-    <Route exact path='/' component={Home} />
-    <Route path='/counter' component={Counter} />
-    <Route path='/fetchdata/:startDateIndex?' component={FetchData} />
-  </Layout>
+    <Route exact path='/' component={Login} >
+      <Route component={UserOnly}>
+        <Route component={Index} />
+      </Route>
+      <Route component={GuestOnly}>
+        <Route path ="/login" component={Login} />
+      </Route>
+    </Route>
 );

@@ -1,17 +1,14 @@
 ﻿import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import thunk from 'redux-thunk';
 import { routerReducer, routerMiddleware } from 'react-router-redux';
-import * as Counter from './Counter';
-import * as WeatherForecasts from './WeatherForecasts';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from '../sagas';
+import reducer from '../reducers';
 
 export default function configureStore(history, initialState) {
-  const reducers = {
-    counter: Counter.reducer,
-    weatherForecasts: WeatherForecasts.reducer
-  };
+  const sagaMiddleware = createSagaMiddleware();
 
   const middleware = [
-    thunk,
+    sagaMiddleware,
     routerMiddleware(history)
   ];
 
@@ -23,13 +20,15 @@ export default function configureStore(history, initialState) {
   }
 
   const rootReducer = combineReducers({
-    ...reducers,
+    ...reducer,
     routing: routerReducer
   });
 
-  return createStore(
+  const store = createStore(
     rootReducer,
     initialState,
-    compose(applyMiddleware(...middleware), ...enhancers)
-  );
+    compose(applyMiddleware(...middleware), ...enhancers));
+
+  sagaMiddleware.run(rootSaga);
+  return store;
 }
