@@ -37,6 +37,7 @@ namespace WebClient
                Audience = this.Configuration["Jwt:Audience"]
             };
             Console.WriteLine($"{jwt.Key},{jwt.Issuer},{jwt.Audience}");
+            Console.WriteLine(KeyGenerator.GeneratKey());
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options => 
             {

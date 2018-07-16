@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-class GuestOnly extends React.Component {
+class GuestOnly extends Component {
   static contextTypes = {
   }
 
@@ -14,8 +14,8 @@ class GuestOnly extends React.Component {
   }
 
   guestWillTransfer(props, router) {
-    if (!props.auth.isLoggedIn) {
-      router.replace('/login');
+    if (props.auth.isLoggedin) {
+      router.replace('/');
     }
   }
 
@@ -23,8 +23,10 @@ class GuestOnly extends React.Component {
     return <div>{this.props.children}</div>;
   }
 }
-function select({ auth }) {
-  return { auth };
-}
 
-export default connect(select)(GuestOnly);
+const mapStateToProps = ({auth}) =>({
+   auth: auth 
+})
+export default connect(
+    mapStateToProps
+)(GuestOnly);
