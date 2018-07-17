@@ -8,7 +8,7 @@ import FieldGroup from '../../components/FieldGroup';
 const Login = ({auth,requestLoginAsync}) => {
 
     return (
-      <Form onSubmit={requestLoginAsync}>
+      <Form >
         <h1 >Please sign in</h1>
         <label >Email address</label>
         <FieldGroup type="text" id="name" placeholder="Email address" required />
@@ -19,7 +19,7 @@ const Login = ({auth,requestLoginAsync}) => {
               <input type="checkbox" value="remember-me"/> Remember me
             </label>
         </div>
-            <button type="submit">Sign in</button>
+            <button onClick={requestLoginAsync}>Sign in</button>
         <p >&copy; 2017-2018</p>
       </Form>
     );

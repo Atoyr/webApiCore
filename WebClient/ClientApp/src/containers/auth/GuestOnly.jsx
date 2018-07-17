@@ -15,6 +15,7 @@ class GuestOnly extends Component {
 
   guestWillTransfer(props, router) {
     if (props.auth.isLoggedin) {
+      console.log(props.auth);
       router.replace('/');
     }
   }

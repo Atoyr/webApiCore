@@ -10,13 +10,11 @@ namespace WebClient.Models.Sample
 
         public UserInfo Authorization(LoginInfo loginInfo)
         {
-            return new UserInfo{UserName = $"Id : {loginInfo.Id}" ,UserId = loginInfo.Id};
+            return new UserInfo{UserName = $"Id : {loginInfo.Username}" ,UserId = loginInfo.Username};
         }
-        public LoginInfo CreateLoginInfo(IDictionary<string,string> values)
+        public LoginInfo CreateLoginInfo(string username, string password)
         {
-            var id = values.FirstOrDefault(x => x.Key == "username").Value ?? string.Empty;
-            var password = values.FirstOrDefault(x => x.Key == "password").Value ?? string.Empty;
-            return new LoginInfo{Id = id, Password = password};
+            return new LoginInfo{Username= username, Password = password};
         }
     }
 }

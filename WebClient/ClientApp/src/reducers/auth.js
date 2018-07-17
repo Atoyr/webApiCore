@@ -20,5 +20,12 @@ export default handleActions({
     },
     FAIL_REFRESH_TOKEN : (state, action) => {
         return inisialState;
+    },
+    SUCCESS_FETCH_STATE : (state,action) => {
+        console.log(action);
+        return {isLoggedin:true,token:action.payload};
+    },
+    FAIL_FETCH_LOGIN_STATE : (state,action) => {
+        return inisialState;
     }
 },inisialState);

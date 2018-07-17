@@ -1,24 +1,39 @@
-import { takeEvery, delay } from 'redux-saga';
-import { put, call, select } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
+import { put, call, select, takeEvery} from 'redux-saga/effects';
 
-import {REQUEST_LOGIN_ASYNC, requestLoginAsync, successLogin, failLogin, failRefreshToken, successRefreshToken, REQUEST_REFRESH_TOKEN_ASYNC, FETCH_LOGIN_STATE_ASYNC, fetchLoginStateAsync} from '../actions/auth';
+import {
+    REQUEST_LOGIN_ASYNC, 
+    requestLoginAsync, 
+    successLogin, 
+    failLogin, 
+    failRefreshToken, 
+    successRefreshToken, 
+    REQUEST_REFRESH_TOKEN_ASYNC, 
+    FETCH_LOGIN_STATE_ASYNC, 
+    successFetchLoginState,
+    failFetchLoginState} from '../actions/auth';
 
 function* runRequestLoginAsync(action){
+    console.log(action);
     const user = {
-        username : action.payload.username,
-        password : action.payload.password
+        username : 'hogehoge',//action.payload.username,
+        password : 'fugufugu'//action.payload.password
     };
-    const method = 'POST';
-    const headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    };
-    const body = JSON.stringify(user);
     const uri = 'api/token';
-    console.log(user);
-    const res = yield fetch(uri,{headers:headers,body:body,method:method})
-    console.log(res);
+    const option = 
+    {
+        method: 'POST',
+        mode: 'cors',
+        redirect: 'follow',
+        body: JSON.stringify(user),
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        })
+    }
+    const res = yield fetch(uri,option)
     if (res.ok) {
+        localStorage.setItem('jwt', res);
         yield put(successLogin(res));
     }
     else {
@@ -50,7 +65,14 @@ export function* handleRequestRefreshTokenAsync(action){
     yield takeEvery(REQUEST_REFRESH_TOKEN_ASYNC,runRequestRefreshTokenAsync);
 }
 function* runRequestFetchLoginStateAsync(action){
+    const jwt = localStorage.getItem('jwt');
 
+    if (jwt) {
+        yield put(successFetchLoginState());
+    }
+    else {
+        yield put(failFetchLoginState());
+    }
 }
 export function* handleFetchLoginStateAsync(action){
     yield takeEvery(FETCH_LOGIN_STATE_ASYNC,runRequestFetchLoginStateAsync);

@@ -28,10 +28,10 @@ namespace WebClient.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult GenerateToken([FromForm]IDictionary<string,string> values)
+        public IActionResult GenerateToken([FromBody]LoginInfo loginInfo)
         {
             IActionResult response = Unauthorized();
-            var userInfo = _authManager.Authorization(_authManager.CreateLoginInfo(values));
+            var userInfo = _authManager.Authorization(loginInfo);
 
             if(userInfo != null)
             {
