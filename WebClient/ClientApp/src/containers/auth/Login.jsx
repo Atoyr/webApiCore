@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import "./signin.css";
 import { requestLoginAsync } from '../../actions/auth';
-import {Form} from 'react-bootstrap';
+import {Form, Button} from 'react-bootstrap';
 import FieldGroup from '../../components/FieldGroup';
 const Login = ({auth,requestLoginAsync}) => {
 
@@ -13,13 +13,13 @@ const Login = ({auth,requestLoginAsync}) => {
         <label >Email address</label>
         <FieldGroup type="text" id="name" placeholder="Email address" required />
         <label >Password</label>
-        <input type="password" id="password" placeholder="Password" required/>
+        <FieldGroup type="password" id="password" placeholder="Password" required />
         <div >
             <label>
               <input type="checkbox" value="remember-me"/> Remember me
             </label>
         </div>
-            <button onClick={requestLoginAsync}>Sign in</button>
+            <Button onClick={requestLoginAsync}>Sign in</Button>
         <p >&copy; 2017-2018</p>
       </Form>
     );
