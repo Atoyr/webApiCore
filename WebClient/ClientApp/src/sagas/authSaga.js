@@ -12,6 +12,7 @@ import {
     successFetchLoginState,
     failFetchLoginState,
     fetchingLogin} from '../actions/auth';
+import { getToken } from '../api/auth';
 
 function* runRequestLoginAsync(action){
     yield put(fetchingLogin());
@@ -32,14 +33,12 @@ function* runRequestLoginAsync(action){
             Accept: 'application/json',
         })
     }
-    const res = yield call(fetch,uri,option)
+    const res = yield call(getToken,user);
     if (res.ok) {
-        const jsonRes = res.json();
-        console.log(jsonRes)
-        console.log(res)
+        console.log(res.body)
         localStorage.setItem('jwt', jsonRes.token);
         localStorage.setItem('refreshToken', jsonRes.refreshToken);
-        yield put(successLogin(jsonRes));
+        yield put(successLogin(res.body));
     }
     else {
         yield put(failLogin(res));
