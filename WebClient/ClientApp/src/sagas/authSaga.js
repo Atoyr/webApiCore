@@ -16,8 +16,8 @@ import {
 function* runRequestLoginAsync(action){
     console.log(action);
     const user = {
-        username : 'hogehoge',//action.payload.username,
-        password : 'fugufugu'//action.payload.password
+        username : action.payload.username,
+        password : action.payload.password
     };
     const uri = 'api/token';
     const option = 
