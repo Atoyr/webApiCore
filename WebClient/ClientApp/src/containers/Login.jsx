@@ -2,9 +2,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import "./signin.css";
-import { requestLoginAsync } from '../../actions/auth';
+import { requestLoginAsync } from '../actions/auth';
 import {Form, Button, FormControl} from 'react-bootstrap';
-import FieldGroup from '../../components/FieldGroup';
+import { Redirect } from 'react-router-dom';
 
 const usernameStyle = {
   marginbottom: '-1px',
@@ -26,6 +26,9 @@ class Login extends Component {
 
     render() {
         return (
+            this.props.auth.isLoggedin ?
+            ( <Redirect to={'/'} />)
+            :(
             <Form className='form-signin' onSubmit={this.handleSubmit} >
                 <h1 >Please sign in</h1>
                 <FormControl type="text" id="name" placeholder="Username" required />
@@ -40,7 +43,7 @@ class Login extends Component {
                     <Button type="submit" bsStyle="primary" block >Sign in</Button>}
                 <p >&copy; 2017-2018</p>
             </Form>
-    );
+    ));
     }
 }
 
@@ -49,9 +52,8 @@ const mapStateToProps = ({auth}) =>({
 })
 function mapDispatchToProps(dispatch) {
     return {
-        requestLoginAsync : (value) => {
-          console.log(value); 
-          dispatch(requestLoginAsync({username:value.username,password: value.password}))}
+        requestLoginAsync : (value) => 
+          dispatch(requestLoginAsync({username:value.username,password: value.password}))
     }
 }
 
