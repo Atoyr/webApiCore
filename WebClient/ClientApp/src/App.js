@@ -1,18 +1,17 @@
 ﻿import React from 'react';
-import { Route , IndexRoute} from 'react-router';
-import UserOnly from './containers/auth/UserOnly';
-import GuestOnly from './containers/auth/GuestOnly';
-import DashBoard from './components/DashBoard';
+import { Route, Switch} from 'react-router';
+import App from './containers/App';
+import Auth from './containers/Auth';
 import Login from './containers/auth/Login';
 import Index from './containers/Index';
 
 export default () => (
-    <Route exact path='/' component={Login} >
-      <Route component={UserOnly}>
-        <Route component={Index} />
-      </Route>
-      <Route component={GuestOnly}>
-        <Route path ="/login" component={Login} />
-      </Route>
-    </Route>
+  <Switch>
+    <Route exact path='/login' component={Login} />
+    <Auth>
+      <Switch>
+        <Route exact path='/' component={Index} />
+      </Switch>
+    </Auth>
+  </Switch>
 );

@@ -6,17 +6,19 @@ class GuestOnly extends Component {
   }
 
   componentWillMount() {
-    this.guestWillTransfer(this.props, this.context.router);
+    this.guestWillTransfer(this.props);
   }
 
   componentWillUpdate(nextProps) {
-    this.guestWillTransfer(nextProps, this.context.router);
+    this.guestWillTransfer(nextProps);
   }
 
-  guestWillTransfer(props, router) {
+  guestWillTransfer(props) {
+      console.log(props);
+      const{history} = props;
     if (props.auth.isLoggedin) {
       console.log(props.auth);
-      router.replace('/');
+      history.replace('/');
     }
   }
 

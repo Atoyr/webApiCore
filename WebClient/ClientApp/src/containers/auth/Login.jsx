@@ -3,8 +3,15 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import "./signin.css";
 import { requestLoginAsync } from '../../actions/auth';
-import {Form, Button} from 'react-bootstrap';
+import {Form, Button, FormControl} from 'react-bootstrap';
 import FieldGroup from '../../components/FieldGroup';
+
+const usernameStyle = {
+  marginbottom: '-1px',
+  borderbottomrightradius: '0',
+  borderbottomleftradius: '0'
+}
+
 class Login extends Component {
     constructor(props){
         super(props);
@@ -19,16 +26,18 @@ class Login extends Component {
 
     render() {
         return (
-            <Form onSubmit={this.handleSubmit} >
+            <Form className='form-signin' onSubmit={this.handleSubmit} >
                 <h1 >Please sign in</h1>
-                <FieldGroup type="text" id="name" placeholder="Username" required />
-                <FieldGroup type="password" id="password" placeholder="Password" required />
+                <FormControl type="text" id="name" placeholder="Username" required />
+                <FormControl type="password" id="password" placeholder="Password" required />
                 <div >
                     <label>
                         <input type="checkbox" value="remember-me" /> Remember me
                     </label>
                 </div>
-                <Button type="submit">Sign in</Button>
+                {this.props.auth.isFetching ? 
+                    <div className="loading" /> :
+                    <Button type="submit" bsStyle="primary" block >Sign in</Button>}
                 <p >&copy; 2017-2018</p>
             </Form>
     );

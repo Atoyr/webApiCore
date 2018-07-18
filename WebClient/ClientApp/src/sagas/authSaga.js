@@ -3,7 +3,6 @@ import { put, call, select, takeEvery} from 'redux-saga/effects';
 
 import {
     REQUEST_LOGIN_ASYNC, 
-    requestLoginAsync, 
     successLogin, 
     failLogin, 
     failRefreshToken, 
@@ -11,9 +10,11 @@ import {
     REQUEST_REFRESH_TOKEN_ASYNC, 
     FETCH_LOGIN_STATE_ASYNC, 
     successFetchLoginState,
-    failFetchLoginState} from '../actions/auth';
+    failFetchLoginState,
+    fetchingLogin} from '../actions/auth';
 
 function* runRequestLoginAsync(action){
+    yield put(fetchingLogin());
     console.log(action);
     const user = {
         username : action.payload.username,
@@ -31,13 +32,17 @@ function* runRequestLoginAsync(action){
             Accept: 'application/json',
         })
     }
-    const res = yield fetch(uri,option)
+    const res = yield call(fetch,uri,option)
     if (res.ok) {
-        localStorage.setItem('jwt', res);
-        yield put(successLogin(res));
+        const jsonRes = res.json();
+        console.log(jsonRes)
+        console.log(res)
+        localStorage.setItem('jwt', jsonRes.token);
+        localStorage.setItem('refreshToken', jsonRes.refreshToken);
+        yield put(successLogin(jsonRes));
     }
     else {
-        yield put(failLogin(res.status));
+        yield put(failLogin(res));
     }
 }
 export function* handleRequestLoginAsync(action){
