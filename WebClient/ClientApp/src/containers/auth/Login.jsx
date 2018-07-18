@@ -21,9 +21,7 @@ class Login extends Component {
         return (
             <Form onSubmit={this.handleSubmit} >
                 <h1 >Please sign in</h1>
-                <label >Email address</label>
-                <FieldGroup type="text" id="name" placeholder="Email address" required />
-                <label >Password</label>
+                <FieldGroup type="text" id="name" placeholder="Username" required />
                 <FieldGroup type="password" id="password" placeholder="Password" required />
                 <div >
                     <label>
