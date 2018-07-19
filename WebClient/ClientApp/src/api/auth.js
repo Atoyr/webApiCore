@@ -30,7 +30,6 @@ export async function validateToken(token){
             Authorization: `Bearer ${token}`
         })
     }
-    console.log(token)
     return fetch(uri,option)
     .then(res => ({ok:res.ok}))
 }

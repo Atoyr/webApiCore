@@ -35,7 +35,7 @@ namespace WebClient.Controllers
 
             if(userInfo != null)
             {
-                response = Ok(new {token = _tokenManager.GenerateToken(userInfo), refleshToken = KeyGenerator.GeneratKey()});
+                response = Ok(new {token = _tokenManager.GenerateToken(userInfo), refreshToken = KeyGenerator.GeneratKey()});
             }
             return response;
         }

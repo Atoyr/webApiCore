@@ -33,7 +33,7 @@ export default handleActions({
         console.log(action);
         localStorage.setItem('jwt', action.payload.token);
         localStorage.setItem('refreshToken', action.payload.refreshToken);
-        return Object.assign({},state,{isLoggedin:true,token:action.payload.token,refreshToken:'',isFetching: false, isPrepared:true});
+        return Object.assign({},state,{isLoggedin:true, token:action.payload.token, refreshToken:action.payload.refreshToken, isFetching: false, isPrepared:true});
     },
     FAIL_REFRESH_TOKEN : (state, action) => {
         console.log(state);
@@ -43,7 +43,7 @@ export default handleActions({
     SUCCESS_FETCH_LOGIN_STATE : (state,action) => {
         console.log(state);
         console.log(action);
-        return Object.assign({},state,{isLoggedin:true,token:action.payload.token,refreshToken:'',isFetching: false, isPrepared:true});
+        return Object.assign({},state,{isLoggedin:true, token:action.payload.token, refreshToken:action.payload.refreshToken, isFetching: false, isPrepared:true});
     },
     FAIL_FETCH_LOGIN_STATE : (state,action) => {
         console.log(state);
