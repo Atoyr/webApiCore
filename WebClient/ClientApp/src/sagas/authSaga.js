@@ -11,33 +11,18 @@ import {
     FETCH_LOGIN_STATE_ASYNC, 
     successFetchLoginState,
     failFetchLoginState,
-    fetchingLogin} from '../actions/auth';
+    executeLogin} from '../actions/auth';
 import { getToken } from '../api/auth';
 
 function* runRequestLoginAsync(action){
-    yield put(fetchingLogin());
+    yield put(executeLogin());
     console.log(action);
     const user = {
         username : action.payload.username,
         password : action.payload.password
     };
-    const uri = 'api/token';
-    const option = 
-    {
-        method: 'POST',
-        mode: 'cors',
-        redirect: 'follow',
-        body: JSON.stringify(user),
-        headers: new Headers({
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-        })
-    }
     const res = yield call(getToken,user);
     if (res.ok) {
-        console.log(res.body)
-        localStorage.setItem('jwt', jsonRes.token);
-        localStorage.setItem('refreshToken', jsonRes.refreshToken);
         yield put(successLogin(res.body));
     }
     else {
@@ -69,10 +54,12 @@ export function* handleRequestRefreshTokenAsync(action){
     yield takeEvery(REQUEST_REFRESH_TOKEN_ASYNC,runRequestRefreshTokenAsync);
 }
 function* runRequestFetchLoginStateAsync(action){
+    yield put(executeLogin());
+    console.log(action)
     const jwt = localStorage.getItem('jwt');
-
-    if (jwt) {
-        yield put(successFetchLoginState());
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (jwt && refreshToken) {
+        yield put(successFetchLoginState({token:jwt,refreshToken:refreshToken}));
     }
     else {
         yield put(failFetchLoginState());

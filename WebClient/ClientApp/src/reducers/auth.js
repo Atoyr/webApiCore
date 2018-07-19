@@ -1,17 +1,20 @@
 import { handleActions } from 'redux-actions';
 
 var inisialState = {
-    isLoggedin:false,
     token:'',
     refreshToken:'',
-    isFetching: false
+    isLoggedin: false,
+    isFetching: false,
+    isPrepared: false
 }
 
 export default handleActions({
     SUCCESS_LOGIN : (state,action) => {
         console.log(state);
         console.log(action);
-        return {isLoggedin:true,token:'',refreshToken:'',isFetching: false};
+        localStorage.setItem('jwt', action.payload.token);
+        localStorage.setItem('refreshToken', action.payload.refreshToken);
+        return Object.assign({},state,{isLoggedin:true,token:'',refreshToken:'',isFetching: false, isPrepared:true});
     },
     FAIL_LOGIN : (state,action) => {
         console.log(state);
@@ -21,26 +24,28 @@ export default handleActions({
     SUCCESS_REFRESH_TOKEN : (state, action) => {
         console.log(state);
         console.log(action);
-        return {isLoggedin:true,token:action.payload.token,refreshToken:'',isFetching: false};
+        localStorage.setItem('jwt', action.payload.token);
+        localStorage.setItem('refreshToken', action.payload.refreshToken);
+        return Object.assign({},state,{isLoggedin:true,token:action.payload.token,refreshToken:'',isFetching: false, isPrepared:true});
     },
     FAIL_REFRESH_TOKEN : (state, action) => {
         console.log(state);
         console.log(action);
         return inisialState;
     },
-    SUCCESS_FETCH_STATE : (state,action) => {
+    SUCCESS_FETCH_LOGIN_STATE : (state,action) => {
         console.log(state);
         console.log(action);
-        return {isLoggedin:true,token:action.payload.token,refreshToken:'',isFetching: false};
+        return Object.assign({},state,{isLoggedin:true,token:action.payload.token,refreshToken:'',isFetching: false, isPrepared:true});
     },
     FAIL_FETCH_LOGIN_STATE : (state,action) => {
         console.log(state);
         console.log(action);
         return inisialState;
     },
-    FETCHING_LOGIN : (state,action) => {
+    EXECUTE_LOGIN : (state,action) => {
         console.log(state);
         console.log(action);
-        return {isLoggedin: false,token:'',refreshToken:'',isFetching: true};
+        return Object.assign({},state,{isFetching: true});
     }
 },inisialState);

@@ -21,5 +21,5 @@ export const successFetchLoginState = createAction(SUCCESS_FETCH_LOGIN_STATE);
 export const FAIL_FETCH_LOGIN_STATE = 'FAIL_FETCH_LOGIN_STATE';
 export const failFetchLoginState = createAction(FAIL_FETCH_LOGIN_STATE);
 
-export const FETCHING_LOGIN = 'FETCHING_LOGIN';
-export const fetchingLogin = createAction(FETCHING_LOGIN);
+export const EXECUTE_LOGIN = 'EXECUTE_LOGIN';
+export const executeLogin = createAction(EXECUTE_LOGIN);

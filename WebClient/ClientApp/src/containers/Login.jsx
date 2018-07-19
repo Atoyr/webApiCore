@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import "./signin.css";
-import { requestLoginAsync } from '../actions/auth';
+import { requestLoginAsync, fetchLoginStateAsync } from '../actions/auth';
 import {Form, Button, FormControl} from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
@@ -13,6 +13,10 @@ const usernameStyle = {
 }
 
 class Login extends Component {
+    componentWillMount(){
+        console.log(this.props);
+        this.props.fetchLoginStateAsync();
+    }
     constructor(props){
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -53,7 +57,9 @@ const mapStateToProps = ({auth}) =>({
 function mapDispatchToProps(dispatch) {
     return {
         requestLoginAsync : (value) => 
-          dispatch(requestLoginAsync({username:value.username,password: value.password}))
+          dispatch(requestLoginAsync({username:value.username,password: value.password})),
+        fetchLoginStateAsync: () => 
+          dispatch(fetchLoginStateAsync())
     }
 }
 

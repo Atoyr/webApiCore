@@ -3,6 +3,7 @@ import { Route, Switch} from 'react-router';
 import Auth from './containers/Auth';
 import Login from './containers/Login';
 import Index from './containers/Index';
+import Page from './containers/Page';
 
 export default () => (
   <Switch>
@@ -11,6 +12,7 @@ export default () => (
       <p>hogehoge</p>
       <Switch>
         <Route exact path='/' component={Index} />
+        <Route exact path='/page'component={Page} />
       </Switch>
     </Auth>
   </Switch>
