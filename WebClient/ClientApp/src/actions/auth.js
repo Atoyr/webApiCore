@@ -7,6 +7,13 @@ export const successLogin = createAction(SUCCESS_LOGIN);
 export const FAIL_LOGIN = 'FAIL_LOGIN';
 export const failLogin = createAction(FAIL_LOGIN);
 
+export const REQUEST_LOGOUT_ASYNC = 'REQUEST_LOGOUT_ASYNC';
+export const requestLogoutAsync = createAction(REQUEST_LOGOUT_ASYNC);
+export const SUCCESS_LOGOUT = 'SUCCESS_LOGOUT';
+export const successLogout = createAction(SUCCESS_LOGOUT);
+export const FAIL_LOGOUT = 'FAIL_LOGOUT';
+export const failLogout = createAction(FAIL_LOGOUT);
+
 export const REQUEST_REFRESH_TOKEN_ASYNC = 'REQUEST_REFRESH_TOKEN_ASYNC';
 export const requestRefreshTokenAsync = createAction(REQUEST_REFRESH_TOKEN_ASYNC);
 export const SUCCESS_REFRESH_TOKEN = 'SUCCESS_REFRESH_TOKEN';

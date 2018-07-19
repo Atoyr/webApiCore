@@ -4,12 +4,13 @@ import Auth from './containers/Auth';
 import Login from './containers/Login';
 import Index from './containers/Index';
 import Page from './containers/Page';
+import Header from './containers/Header';
 
 export default () => (
   <Switch>
     <Route exact path='/login' component={Login} />
     <Auth>
-      <p>hogehoge</p>
+      <Header />
       <Switch>
         <Route exact path='/' component={Index} />
         <Route exact path='/page'component={Page} />

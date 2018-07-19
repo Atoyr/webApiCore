@@ -39,6 +39,13 @@ namespace WebClient.Controllers
             }
             return response;
         }
+        
+        [Route("validate_token")]
+        [HttpPost,Authorize]
+        public IActionResult ValidateToken()
+        {
+            return Ok(); 
+        }
 
         [Route("reflesh_token")]
         [HttpPost,Authorize(AuthenticationSchemes = Schemes.RefreshTokenScheme)]

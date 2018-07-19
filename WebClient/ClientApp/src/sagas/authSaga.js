@@ -11,8 +11,10 @@ import {
     FETCH_LOGIN_STATE_ASYNC, 
     successFetchLoginState,
     failFetchLoginState,
-    executeLogin} from '../actions/auth';
-import { getToken } from '../api/auth';
+    executeLogin,
+    successLogout,
+    REQUEST_LOGOUT_ASYNC} from '../actions/auth';
+import { getToken, validateToken } from '../api/auth';
 
 function* runRequestLoginAsync(action){
     yield put(executeLogin());
@@ -58,8 +60,15 @@ function* runRequestFetchLoginStateAsync(action){
     console.log(action)
     const jwt = localStorage.getItem('jwt');
     const refreshToken = localStorage.getItem('refreshToken');
+    console.log(jwt);
+    console.log(refreshToken);
     if (jwt && refreshToken) {
-        yield put(successFetchLoginState({token:jwt,refreshToken:refreshToken}));
+        const res = yield call(validateToken,jwt);
+        if(res.ok){
+            yield put(successFetchLoginState({ token: jwt, refreshToken: refreshToken }));
+        }else {
+            yield put(failFetchLoginState());
+        }
     }
     else {
         yield put(failFetchLoginState());
@@ -67,4 +76,12 @@ function* runRequestFetchLoginStateAsync(action){
 }
 export function* handleFetchLoginStateAsync(action){
     yield takeEvery(FETCH_LOGIN_STATE_ASYNC,runRequestFetchLoginStateAsync);
+}
+function* runRequestLogoutAsync(action){
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('refreshToken');
+    yield put(successLogout());
+}
+export function* handleRequestLogoutAsync(action){
+    yield takeEvery(REQUEST_LOGOUT_ASYNC,runRequestLogoutAsync);
 }

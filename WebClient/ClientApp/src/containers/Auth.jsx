@@ -4,18 +4,15 @@ import { connect } from 'react-redux';
 import { fetchLoginStateAsync, executeLogin} from '../actions/auth';
 
 class Auth extends Component{
-    constructor(props) {
-        super(props);
-        props.fetchLoginStateAsync();
-    }
     componentWillMount(){
         console.log(this.props);
+        this.props.fetchLoginStateAsync();
     }
     render() {
         return (
             this.props.auth.isLoggedin ? 
             this.props.children : 
-            this.props.auth.isPreoared ?
+            this.props.auth.isPrepared ?
             <Redirect to={'/login'} /> :
             <p>loading </p>)
     }
