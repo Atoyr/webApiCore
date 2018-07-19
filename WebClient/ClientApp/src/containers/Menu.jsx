@@ -5,24 +5,19 @@ import {Link} from 'react-router-dom';
 import { fetchLoginStateAsync, requestLogoutAsync } from '../actions/auth';
 import { LinkContainer } from 'react-router-bootstrap';
 
-const Header = ({requestLogoutAsync}) => {
+const Menu = () => {
     return (
-        <Navbar inverse fixedTop>
+        <Navbar inverse >
             <Navbar.Header>
-                <Navbar.Brand>
-                    <Link to="/">My Apps</Link>
-                </Navbar.Brand>
+                <Navbar.Toggle > </Navbar.Toggle>
             </Navbar.Header>
-            <Nav>
-                <NavItem>
-                    <LinkContainer to={'/page'}><p>Page</p></LinkContainer>
-                </NavItem>
-            </Nav>
-            <Nav pullRight>
-                <NavItem onClick={requestLogoutAsync}>
-                    Logout
-                </NavItem>
-            </Nav>
+            <Navbar.Collapse>
+                <Nav>
+                    <LinkContainer to={'/page'}>
+                    <Button>hoge</Button>
+                    </LinkContainer>
+                </Nav>
+            </Navbar.Collapse>
         </Navbar>)
 }
 
@@ -41,4 +36,4 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )
-(Header)
+(Menu)
