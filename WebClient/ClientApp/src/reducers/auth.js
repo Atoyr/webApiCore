@@ -1,4 +1,5 @@
 import { handleActions } from 'redux-actions';
+import decode from 'jwt-claims';
 
 var inisialState = {
     token:'',
@@ -19,6 +20,7 @@ export default handleActions({
     SUCCESS_LOGIN : (state,action) => {
         console.log(state);
         console.log(action);
+        console.log(decode(action.payload.token))
         localStorage.setItem('jwt', action.payload.token);
         localStorage.setItem('refreshToken', action.payload.refreshToken);
         return Object.assign({},state,{isLoggedin:true, token:action.payload.token, refreshToken:action.payload.refreshToken, isFetching: false, isPrepared:true});
