@@ -5,16 +5,20 @@ import Login from './containers/Login';
 import Index from './containers/Index';
 import Page from './containers/Page';
 import Header from './containers/Header';
+import Menu from './containers/Menu';
 
 export default () => (
   <Switch>
     <Route exact path='/login' component={Login} />
     <Auth>
+      <div className='container'>
       <Header />
+      <Menu />
       <Switch>
         <Route exact path='/' component={Index} />
         <Route exact path='/page'component={Page} />
       </Switch>
+      </div>
     </Auth>
   </Switch>
 );

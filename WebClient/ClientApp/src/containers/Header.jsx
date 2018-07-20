@@ -13,11 +13,6 @@ const Header = ({requestLogoutAsync}) => {
                     <Link to="/">My Apps</Link>
                 </Navbar.Brand>
             </Navbar.Header>
-            <Nav>
-                <NavItem>
-                    <LinkContainer to={'/page'}><p>Page</p></LinkContainer>
-                </NavItem>
-            </Nav>
             <Nav pullRight>
                 <NavItem onClick={requestLogoutAsync}>
                     Logout

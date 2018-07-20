@@ -7,18 +7,12 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 const Menu = () => {
     return (
-        <Navbar inverse >
-            <Navbar.Header>
-                <Navbar.Toggle > </Navbar.Toggle>
-            </Navbar.Header>
-            <Navbar.Collapse>
-                <Nav>
+                <Nav navbar>
                     <LinkContainer to={'/page'}>
                     <Button>hoge</Button>
                     </LinkContainer>
                 </Nav>
-            </Navbar.Collapse>
-        </Navbar>)
+    )
 }
 
 const mapStateToProps = ({auth}) =>({
