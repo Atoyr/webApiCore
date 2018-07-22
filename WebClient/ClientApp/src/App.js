@@ -11,14 +11,12 @@ export default () => (
   <Switch>
     <Route exact path='/login' component={Login} />
     <Auth>
-      <div className='container'>
       <Header />
       <Menu />
       <Switch>
         <Route exact path='/' component={Index} />
         <Route exact path='/page'component={Page} />
       </Switch>
-      </div>
     </Auth>
   </Switch>
 );
