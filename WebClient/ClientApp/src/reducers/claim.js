@@ -1,6 +1,5 @@
 import { handleActions } from 'redux-actions';
 import decode from 'jwt-claims';
-import { successFetchLoginState } from '../actions/auth';
 
 var initialState = {
     iss:'',
@@ -14,6 +13,10 @@ var initialState = {
 
 export default handleActions({
     CHANGE_CLAIM : (state,action) => {
+        const claim = decode(action.payload);
+        return Object.assign({},state,claim);
+    },
+    CLEAR_CLAIM : (state,action) => {
         return initialState;
     }
-})
+},initialState);
