@@ -64,8 +64,9 @@ function* runRequestFetchLoginStateAsync(action){
     console.log(jwt);
     console.log(refreshToken);
     if (jwt) {
-        if(refreshToken){
-            yield put(requestRefreshTokenAsync({jwt: jwt, refreshToken: refreshToken}));
+        if (refreshToken) {
+            //yield put(requestRefreshTokenAsync({jwt: jwt, refreshToken: refreshToken}));
+            yield put(successFetchLoginState({ token: jwt, refreshToken: refreshToken }));
         } else{
             const res = yield call(validateToken, jwt);
             if (res.ok) {
