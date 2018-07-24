@@ -33,11 +33,18 @@ namespace WebClient.Models.Sample
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
         public string GenerateRefreshToken(string token)
         {
             var refreshToken = KeyGenerator.GeneratKey()
             _refreshTokenCollection.Add(token,refreshToken);
             return refreshToken;
+        }
+
+        public bool ValidateRefreshToken(string token, string refreshToken)
+        {
+            var currentRefreshToken = _refreshTokenCollection.FirstOrDefault(x => x.Key == token)?.Value;
+            return currentRefreshToken != null && currentRefreshToken == refreshToken;
         }
     }
 }
