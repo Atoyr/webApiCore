@@ -35,16 +35,18 @@ namespace WebClient.Controllers
 
             if(userInfo != null)
             {
+                var token = _tokenManager.GenerateToken(userInfo);
+
                 response = Ok(new {token = _tokenManager.GenerateToken(userInfo), refreshToken = KeyGenerator.GeneratKey()});
             }
             return response;
         }
-        
+
         [Route("validate_token")]
         [HttpPost,Authorize]
         public IActionResult ValidateToken()
         {
-            return Ok(); 
+            return Ok();
         }
 
         [Route("reflesh_token")]
