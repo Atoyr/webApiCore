@@ -49,10 +49,14 @@ namespace WebClient.Controllers
             return Ok();
         }
 
-        [Route("reflesh_token")]
+        [Route("refresh_token")]
         [HttpPost,Authorize(AuthenticationSchemes = Schemes.RefreshTokenScheme)]
         public IActionResult RefreshToken([FromForm]IDictionary<string,string> values)
         {
+            var headers = Request.Headers;
+            foreach(var item in headers){
+                Console.WriteLine(item);
+            }
 //            IActionResult response = Unauthorized();
             var currentUser = HttpContext.User;
             //Console.WriteLine(currentUser);

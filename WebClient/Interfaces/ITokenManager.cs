@@ -6,7 +6,7 @@ namespace WebClient.Interfaces
     {
         string GenerateToken(UserInfo userInfo);
         string GenerateRefreshToken(string token);
-        string ValidateRefreshToken(string token, string refreshToken);
+        bool ValidateRefreshToken(string token, string refreshToken);
 
     }
 }

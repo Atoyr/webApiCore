@@ -6,6 +6,8 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Collections.Generic;
+using System.Linq;
 using WebClient.Models;
 using WebClient.Interfaces;
 
@@ -17,7 +19,7 @@ namespace WebClient.Models.Sample
         private IDictionary<string,string> _refreshTokenCollection;
         public TokenManager(IConfiguration config)
         {
-            _refreshTokenCollection = new Dictionary<string,string>()
+            _refreshTokenCollection = new Dictionary<string,string>();
             _config = config;
         }
         public string GenerateToken(UserInfo userInfo)
@@ -36,15 +38,15 @@ namespace WebClient.Models.Sample
 
         public string GenerateRefreshToken(string token)
         {
-            var refreshToken = KeyGenerator.GeneratKey()
+            var refreshToken = KeyGenerator.GeneratKey();
             _refreshTokenCollection.Add(token,refreshToken);
             return refreshToken;
         }
 
         public bool ValidateRefreshToken(string token, string refreshToken)
         {
-            var currentRefreshToken = _refreshTokenCollection.FirstOrDefault(x => x.Key == token)?.Value;
-            return currentRefreshToken != null && currentRefreshToken == refreshToken;
+            var currentPair = _refreshTokenCollection.FirstOrDefault(x => x.Key == token);
+            return !currentPair.Equals( default(KeyValuePair<string,string>)) && currentPair.Value == refreshToken;
         }
     }
 }

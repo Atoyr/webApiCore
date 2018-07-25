@@ -15,7 +15,7 @@ import {
     successLogout,
     REQUEST_LOGOUT_ASYNC,
     requestRefreshTokenAsync} from '../actions/auth';
-import { getToken, validateToken } from '../api/auth';
+import { executeGetToken, executeValidateToken , executeRefreshToken} from '../api/auth';
 
 function* runRequestLoginAsync(action){
     yield put(executeLogin());
@@ -24,7 +24,7 @@ function* runRequestLoginAsync(action){
         username : action.payload.username,
         password : action.payload.password
     };
-    const res = yield call(getToken,user);
+    const res = yield call(executeGetToken,user);
     if (res.ok) {
         yield put(successLogin(res.body));
     }
@@ -37,15 +37,9 @@ export function* handleRequestLoginAsync(action){
 }
 
 function* runRequestRefreshTokenAsync(action){
+    const token = yield select(state => state.auth.token);
     const refreshToken = yield select(state => state.auth.refreshToken);
-    const method = 'POST';
-    const headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    };
-    const body = JSON.stringify(refreshToken);
-    const uri = 'api/token/refresh_tokne';
-    const res = yield fetch(uri,{method,headers,body})
+    const res = yield call(executeRefreshToken, token, refreshToken);
     if (res.ok) {
         yield put(successRefreshToken(res));
     }
@@ -65,10 +59,10 @@ function* runRequestFetchLoginStateAsync(action){
     console.log(refreshToken);
     if (jwt) {
         if (refreshToken) {
-            //yield put(requestRefreshTokenAsync({jwt: jwt, refreshToken: refreshToken}));
+            yield put(requestRefreshTokenAsync({jwt: jwt, refreshToken: refreshToken}));
             yield put(successFetchLoginState({ token: jwt, refreshToken: refreshToken }));
         } else{
-            const res = yield call(validateToken, jwt);
+            const res = yield call(executeValidateToken, jwt);
             if (res.ok) {
                 yield put(successFetchLoginState({ token: jwt, refreshToken: refreshToken }));
             } else {
