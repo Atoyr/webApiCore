@@ -24,16 +24,7 @@ namespace WebClient.Models.Sample
         }
         public string GenerateToken(UserInfo userInfo)
         {
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-                _config["Jwt:Issuer"],
-                expires: DateTime.Now.AddMinutes(100),
-                signingCredentials: creds);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return GenerateToken();
         }
 
         public string GenerateRefreshToken(string token)
@@ -43,10 +34,26 @@ namespace WebClient.Models.Sample
             return refreshToken;
         }
 
+        public string ExecuteRefreshToken()
+        {
+            return GenerateToken();
+        }
         public bool ValidateRefreshToken(string token, string refreshToken)
         {
             var currentPair = _refreshTokenCollection.FirstOrDefault(x => x.Key == token);
             return !currentPair.Equals( default(KeyValuePair<string,string>)) && currentPair.Value == refreshToken;
+        }
+        private string GenerateToken()
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+                _config["Jwt:Issuer"],
+                expires: DateTime.Now.AddMinutes(100),
+                signingCredentials: creds);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

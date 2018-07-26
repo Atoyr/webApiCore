@@ -39,6 +39,9 @@ export function* handleRequestLoginAsync(action){
 function* runRequestRefreshTokenAsync(action){
     const token = yield select(state => state.auth.token);
     const refreshToken = yield select(state => state.auth.refreshToken);
+    console.log('hohogege');
+    console.log(token);
+    console.log(refreshToken);
     const res = yield call(executeRefreshToken, token, refreshToken);
     if (res.ok) {
         yield put(successRefreshToken(res));

@@ -48,6 +48,7 @@ export async function executeRefreshToken(token, refreshToken){
         }),
         body: JSON.stringify(refreshToken)
     }
+    console.log(option)
     return fetch(uri,option)
     .then(res => {
         const responseBodyPromise = res.json()

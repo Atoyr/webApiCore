@@ -29,7 +29,6 @@ const mapStateToProps = ({auth}) =>({
 function mapDispatchToProps(dispatch) {
     return {
         requestLogoutAsync : (value) => {
-          console.log(value);
           dispatch(requestLogoutAsync());
         }
     }

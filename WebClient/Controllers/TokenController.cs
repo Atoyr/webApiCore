@@ -36,8 +36,8 @@ namespace WebClient.Controllers
             if(userInfo != null)
             {
                 var token = _tokenManager.GenerateToken(userInfo);
-
-                response = Ok(new {token = _tokenManager.GenerateToken(userInfo), refreshToken = KeyGenerator.GeneratKey()});
+                var refreshToken = _tokenManager.GenerateRefreshToken(token);
+                response = Ok(new {token = token, refreshToken = refreshToken});
             }
             return response;
         }
@@ -51,22 +51,18 @@ namespace WebClient.Controllers
 
         [Route("refresh_token")]
         [HttpPost,Authorize(AuthenticationSchemes = Schemes.RefreshTokenScheme)]
-        public IActionResult RefreshToken([FromForm]IDictionary<string,string> values)
+        public IActionResult RefreshToken([FromBody]string values)
         {
+            Console.WriteLine(values);
             var headers = Request.Headers;
-            foreach(var item in headers){
-                Console.WriteLine(item);
-            }
-//            IActionResult response = Unauthorized();
-            var currentUser = HttpContext.User;
-            //Console.WriteLine(currentUser);
-            foreach (var item in currentUser.Claims)
+            IActionResult response = Unauthorized();
+            if(!string.IsNullOrEmpty(headers["Authorization"]))
             {
-                Console.WriteLine($"{item.Type} : {item.Value}");
+                var token = _tokenManager.ExecuteRefreshToken();
+                var refreshToken = _tokenManager.GenerateRefreshToken(token);
+                response = Ok(new {token = token, refreshToken = refreshToken});
             }
-            //if( _authManager.CanRefresh)
-            return Ok();
-            //var userInfo = _authManager.Authorization()
+            return response;
         }
     }
 }
