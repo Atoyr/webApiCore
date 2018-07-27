@@ -14,11 +14,9 @@ const Header = ({requestLogoutAsync}) => {
                 </Navbar.Brand>
             </Navbar.Header>
             <Nav pullRight>
-                <NavDropdown title="setting">
                     <MenuItem onClick={requestLogoutAsync}>
                     Logout
                     </MenuItem>
-                </NavDropdown>
             </Nav>
         </Navbar>)
 }

@@ -81,6 +81,7 @@ export function* handleFetchLoginStateAsync(action) {
     yield takeEvery(FETCH_LOGIN_STATE_ASYNC, runRequestFetchLoginStateAsync);
 }
 function* runRequestLogoutAsync(action) {
+    console.log(action)
     localStorage.removeItem('jwt');
     localStorage.removeItem('refreshToken');
     yield put(successLogout());

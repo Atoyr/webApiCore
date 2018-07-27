@@ -50,7 +50,7 @@ namespace WebClient.Controllers
         }
 
         [Route("refresh_token")]
-        [HttpPost,Authorize(AuthenticationSchemes = Schemes.RefreshTokenScheme)]
+        [HttpPost,Authorize(AuthenticationSchemes = "hogehoge")]
         public IActionResult RefreshToken([FromBody]string values)
         {
             Console.WriteLine(values);

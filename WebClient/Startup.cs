@@ -39,33 +39,33 @@ namespace WebClient
             Console.WriteLine($"{jwt.Key},{jwt.Issuer},{jwt.Audience}");
             Console.WriteLine(KeyGenerator.GeneratKey());
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options => 
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwt.Issuer,
-                    ValidAudience = jwt.Audience, 
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key)),
-                    ClockSkew = TimeSpan.Zero
-                };
-            })
-            .AddJwtBearer(Schemes.RefreshTokenScheme ,options => 
+            .AddJwtBearer("hogehoge" ,options => 
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateLifetime = false,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwt.Issuer,
-                    ValidAudience = jwt.Audience, 
+                    //ValidateIssuerSigningKey = true,
+                    //ValidIssuer = jwt.Issuer,
+                    //ValidAudience = jwt.Audience, 
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key))
                 };
             });
+            //.AddJwtBearer( options => 
+            //{
+                //options.TokenValidationParameters = new TokenValidationParameters
+                //{
+                    //ValidateIssuer = true,
+                    //ValidateAudience = true,
+                    //ValidateLifetime = true,
+                    ////ValidateIssuerSigningKey = true,
+                    //ValidIssuer = jwt.Issuer,
+                    //ValidAudience = jwt.Audience, 
+                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key)),
+                    //ClockSkew = TimeSpan.Zero
+                //};
+            //});
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

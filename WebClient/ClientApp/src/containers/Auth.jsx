@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchLoginStateAsync, executeLogin} from '../actions/auth';
+import { fetchLoginStateAsync} from '../actions/auth';
 
 class Auth extends Component{
     componentWillMount(){
