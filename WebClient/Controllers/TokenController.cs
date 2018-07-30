@@ -9,6 +9,7 @@ using System.Text;
 using System.Collections.Generic;
 using WebClient.Interfaces;
 using WebClient.Models;
+using System.Threading.Tasks;
 
 namespace WebClient.Controllers
 {
@@ -28,16 +29,15 @@ namespace WebClient.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult GenerateToken([FromBody]LoginInfo loginInfo)
+        public async Task<IActionResult> GenerateTokenAsync([FromBody]LoginInfo loginInfo)
         {
             IActionResult response = Unauthorized();
             var userInfo = _authManager.Authorization(loginInfo);
-
             if(userInfo != null)
             {
-                var token = _tokenManager.GenerateToken(userInfo);
-                var refreshToken = _tokenManager.GenerateRefreshToken(token);
-                response = Ok(new {token = token, refreshToken = refreshToken});
+                var token = await _tokenManager.GenerateTokenAsync(userInfo);
+                var refreshTokenTask = _tokenManager.GenerateRefreshTokenAsync(token);
+                response = Ok(new {token = token, refreshToken = await refreshTokenTask});
             }
             return response;
         }

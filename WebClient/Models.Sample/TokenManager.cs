@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WebClient.Models;
 using WebClient.Interfaces;
+using System.Threading.Tasks;
 
 namespace WebClient.Models.Sample
 {
@@ -27,6 +28,11 @@ namespace WebClient.Models.Sample
             return GenerateToken();
         }
 
+        public Task<string> GenerateTokenAsync(UserInfo userInfo)
+        {
+            return Task.Run(() => GenerateToken(userInfo));
+        }
+
         public string GenerateRefreshToken(string token)
         {
             var refreshToken = KeyGenerator.GeneratKey();
@@ -34,10 +40,21 @@ namespace WebClient.Models.Sample
             return refreshToken;
         }
 
+        public async Task<string> GenerateRefreshTokenAsync(string token)
+        {
+            return await Task.Run(() => GenerateRefreshToken(token));
+        }
+
         public string ExecuteRefreshToken()
         {
             return GenerateToken();
         }
+
+        public async Task<string> ExecuteRefreshTokenAsync()
+        {
+            return await Task.Run(() => ExecuteRefreshToken());
+        }
+
         public bool ValidateRefreshToken(string token, string refreshToken)
         {
             var currentPair = _refreshTokenCollection.FirstOrDefault(x => x.Key == token);
