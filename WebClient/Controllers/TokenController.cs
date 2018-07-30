@@ -50,7 +50,8 @@ namespace WebClient.Controllers
         }
 
         [Route("refresh_token")]
-        [HttpPost,Authorize(AuthenticationSchemes = "hogehoge")]
+        [AllowAnonymous]
+        [HttpPost]
         public IActionResult RefreshToken([FromBody]string values)
         {
             Console.WriteLine(values);
