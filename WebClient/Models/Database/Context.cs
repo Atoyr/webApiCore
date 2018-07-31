@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace Models.Sample
+namespace WebClient.Models.Database
 {
-    public class ModelContext : DbContext
+    public class Context : DbContext
     {
-        public ModelContext(DbContextOptions<BloggingContext> options)
+        public Context(DbContextOptions<Context> options)
             : base(options)
         { }
 

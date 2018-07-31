@@ -11,9 +11,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 using WebClient.Models;
 using WebClient.Interfaces;
 using WebClient.Models.Sample;
+using WebClient.Models.Database;
 
 namespace WebClient
 {
@@ -29,7 +31,7 @@ namespace WebClient
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<SystemSettings>(this.Configuration.GetSection("SystemSettings"));
+            //services.Configure<SystemSettings>(this.Configuration.GetSection("SystemSettings"));
 
             var jwt = new Jwt{
                Key = this.Configuration["Jwt:Key"] ,
@@ -39,7 +41,7 @@ namespace WebClient
             Console.WriteLine($"{jwt.Key},{jwt.Issuer},{jwt.Audience}");
             Console.WriteLine(KeyGenerator.GeneratKey());
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer( options => 
+            .AddJwtBearer( options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -90,6 +92,8 @@ namespace WebClient
             });
             var sqlConBuilder = new SqlConnectionStringBuilder();
 
+            var connection = this.Configuration["ConnectionStrings:Context"];
+            services.AddDbContext<Context>(options => options.UseSqlServer(connection));
 
             services.AddTransient<ITokenManager, TokenManager>();
             services.AddTransient<IAuthManager, AuthManager>();
