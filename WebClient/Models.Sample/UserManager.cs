@@ -14,9 +14,10 @@ namespace WebClient.Models.Sample
             _context = context;
         }
 
-        public User GetUser(Guid userId)
+        public UserInfo GetUser(Guid userId)
         {
-            return _context.Users.FirstOrDefault(x => x.Id == userId);
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            return user == null ? default(UserInfo) : new UserInfo{ UserId = user.Id, UserName = user.Name ,Icon = user.Icon};
         }
 
         public bool CreateUser()
