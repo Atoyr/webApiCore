@@ -13,5 +13,7 @@ namespace WebClient.Models.Database
         public DbSet<Company>Companys{get;set;}
         public DbSet<Employee>Employees{get;set;}
         public DbSet<Approval>Approvals{get;set;}
+        public DbSet<ApprovalRoute>ApprovalRoutes{get;set;}
+        public DbSet<Organization>Organization{get;set;}
     }
 }

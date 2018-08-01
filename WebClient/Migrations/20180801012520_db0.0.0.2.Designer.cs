@@ -10,8 +10,8 @@ using WebClient.Models.Database;
 namespace WebClient.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20180801012755_db0.0.0.1")]
-    partial class db0001
+    [Migration("20180801012520_db0.0.0.2")]
+    partial class db0002
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

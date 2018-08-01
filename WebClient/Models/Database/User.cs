@@ -15,6 +15,8 @@ namespace WebClient.Models.Database
         public string Mail{set;get;}
         [Column("PASSWORD")]
         public string Password{set;get;}
+        [Column("SALT")]
+        public byte[] Salt{set;get;}
         [Column("ICON")]
         public byte[] Icon{set;get;}
 

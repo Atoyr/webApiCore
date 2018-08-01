@@ -11,7 +11,10 @@ namespace WebClient.Models.Database
         public string Code {set;get;}
         [Column("NAME")]
         public string Name {set;get;}
+        [Column("ADDRESS")]
+        public string Address {set;get;}
 
         public List<Employee> Employees {set;get;}
+        public List<Organization> Organizations {set;get;}
     }
 }
