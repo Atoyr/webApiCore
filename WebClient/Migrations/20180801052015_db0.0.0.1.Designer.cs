@@ -10,8 +10,8 @@ using WebClient.Models.Database;
 namespace WebClient.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20180801012520_db0.0.0.2")]
-    partial class db0002
+    [Migration("20180801052015_db0.0.0.1")]
+    partial class db0001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,11 +56,43 @@ namespace WebClient.Migrations
                     b.ToTable("APPROVAL");
                 });
 
+            modelBuilder.Entity("WebClient.Models.Database.ApprovalRoute", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("ID");
+
+                    b.Property<Guid>("CompId")
+                        .HasColumnName("COMP_ID");
+
+                    b.Property<DateTime>("CreateDateTime")
+                        .HasColumnName("CREATE_DATETIME");
+
+                    b.Property<string>("CreateUser")
+                        .HasColumnName("CREATE_USER");
+
+                    b.Property<string>("Name")
+                        .HasColumnName("NAME");
+
+                    b.Property<DateTime>("UpdateDateTime")
+                        .HasColumnName("UPDATE_DATETIME");
+
+                    b.Property<string>("UpdateUser")
+                        .HasColumnName("UPDATE_USER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("APPROVAL_ROUTE");
+                });
+
             modelBuilder.Entity("WebClient.Models.Database.Company", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("ID");
+
+                    b.Property<string>("Address")
+                        .HasColumnName("ADDRESS");
 
                     b.Property<string>("Code")
                         .HasColumnName("CODE");
@@ -121,6 +153,49 @@ namespace WebClient.Migrations
                     b.ToTable("EMPLOYEE");
                 });
 
+            modelBuilder.Entity("WebClient.Models.Database.Organization", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("ID");
+
+                    b.Property<Guid>("CompId")
+                        .HasColumnName("COMP_ID");
+
+                    b.Property<Guid?>("CompanyId");
+
+                    b.Property<DateTime>("CreateDateTime")
+                        .HasColumnName("CREATE_DATETIME");
+
+                    b.Property<string>("CreateUser")
+                        .HasColumnName("CREATE_USER");
+
+                    b.Property<string>("Name")
+                        .HasColumnName("NAME");
+
+                    b.Property<int>("Order")
+                        .HasColumnName("ORDER");
+
+                    b.Property<Guid?>("OrganizationId");
+
+                    b.Property<Guid>("ParentId")
+                        .HasColumnName("PARENT_ID");
+
+                    b.Property<DateTime>("UpdateDateTime")
+                        .HasColumnName("UPDATE_DATETIME");
+
+                    b.Property<string>("UpdateUser")
+                        .HasColumnName("UPDATE_USER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.ToTable("ORGANIZATION");
+                });
+
             modelBuilder.Entity("WebClient.Models.Database.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -148,6 +223,9 @@ namespace WebClient.Migrations
                     b.Property<string>("Password")
                         .HasColumnName("PASSWORD");
 
+                    b.Property<byte[]>("Salt")
+                        .HasColumnName("SALT");
+
                     b.Property<DateTime>("UpdateDateTime")
                         .HasColumnName("UPDATE_DATETIME");
 
@@ -170,6 +248,17 @@ namespace WebClient.Migrations
                         .WithMany("Employees")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WebClient.Models.Database.Organization", b =>
+                {
+                    b.HasOne("WebClient.Models.Database.Company")
+                        .WithMany("Organizations")
+                        .HasForeignKey("CompanyId");
+
+                    b.HasOne("WebClient.Models.Database.Organization")
+                        .WithMany("Children")
+                        .HasForeignKey("OrganizationId");
                 });
 #pragma warning restore 612, 618
         }
