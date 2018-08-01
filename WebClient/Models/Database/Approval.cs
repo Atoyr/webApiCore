@@ -1,11 +1,18 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebClient.Models.Database
 {
-    public class Approval
+    [Table("APPROVAL")]
+    public class Approval : TableBase
     {
-        public string ApprovalNo{set;get;}
+        [Column("NO")]
+        public string No{set;get;}
+        [Column("COMP_ID")]
+        public int CompId{set;get;}
+        [Column("SLIP_NO")]
         public string SlipNo{set;get;}
-        public DateTime ApplicationDate{set;get;}
+        [Column("APPLICATION_DATETIME")]
+        public DateTime ApplicationDateTime{set;get;}
     }
 }
