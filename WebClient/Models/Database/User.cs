@@ -13,8 +13,8 @@ namespace WebClient.Models.Database
         public string Name{set;get;}
         [Column("MAIL")]
         public string Mail{set;get;}
-        [Column("PASSWORD")]
-        public string Password{set;get;}
+        [Column("HASH")]
+        public string Hash{set;get;}
         [Column("SALT")]
         public byte[] Salt{set;get;}
         [Column("ICON")]
