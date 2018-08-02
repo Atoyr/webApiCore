@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using WebClient.Interfaces;
 
-namespace WebClient.Models.Sample
+namespace WebClient.Models.Managers
 {
     public class AuthManager : IAuthManager
     {

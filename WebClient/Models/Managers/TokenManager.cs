@@ -12,7 +12,7 @@ using WebClient.Models;
 using WebClient.Interfaces;
 using System.Threading.Tasks;
 
-namespace WebClient.Models.Sample
+namespace WebClient.Models.Managers
 {
     public class TokenManager : ITokenManager
     {

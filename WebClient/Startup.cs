@@ -14,7 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using WebClient.Models;
 using WebClient.Interfaces;
-using WebClient.Models.Sample;
+using WebClient.Models.Managers;
 using WebClient.Models.Database;
 
 namespace WebClient
@@ -97,6 +97,7 @@ namespace WebClient
 
             services.AddTransient<ITokenManager, TokenManager>();
             services.AddTransient<IAuthManager, AuthManager>();
+            services.AddTransient<IUserManager, UserManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -3,12 +3,16 @@ using System.Linq;
 using WebClient.Interfaces;
 using static WebClient.Models.Hash;
 using WebClient.Models.Database;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
-namespace WebClient.Models.Sample
+namespace WebClient.Models.Managers
 {
     public class UserManager
     {
         private Context _context;
+        private const int ITERATION_COUNT = 1000;
+        private const int NUM_BYTES = 256/8;
+        private const KeyDerivationPrf KEY_DERIVATION_PRF = KeyDerivationPrf.HMACSHA1;
 
         public UserManager(Context context)
         {
@@ -23,7 +27,7 @@ namespace WebClient.Models.Sample
 
         public UserInfo Find(string mail, string password)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Mail == mail && x.Hash == GetHash(password, x.Salt));
+            var user = _context.Users.FirstOrDefault(x => x.Mail == mail && x.Hash == GetHash(password, x.Salt, KEY_DERIVATION_PRF, ITERATION_COUNT, NUM_BYTES));
             return ConvertUserToUserInfo(user);
         }
 
@@ -38,20 +42,20 @@ namespace WebClient.Models.Sample
             if (!_context.Users.Any(x => x.Mail == mail))
             {
                 var salt = GenerateSalt();
-                var hashed = GetHash(password,salt);
+                var hashed = GetHash(password, salt, KEY_DERIVATION_PRF, ITERATION_COUNT, NUM_BYTES);
                 var user = new User{
                     Id = new Guid(),
                     CreateUser = createUser,
                     CreateDateTime = DateTime.UtcNow,
                     UpdateUser = createUser,
                     UpdateDateTime = DateTime.UtcNow,
-                    Core = code,
+                    Code = code,
                     Name = name,
                     Mail = mail,
-                    Password = hashed,
+                    Hash = hashed,
                     Salt = salt,
                     Icon = icon
-                }
+                };
                 _context.Users.Add(user);
                 return true;
             }
@@ -59,7 +63,7 @@ namespace WebClient.Models.Sample
             return false;
         }
 
-        private UserInfo ConvertUserToUserInfo(User usre)
+        private UserInfo ConvertUserToUserInfo(User user)
         {
             return user == null ? default(UserInfo) : new UserInfo{ UserId = user.Id, UserName = user.Name ,Icon = user.Icon};
         }
