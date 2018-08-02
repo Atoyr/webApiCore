@@ -9,7 +9,7 @@ namespace WebClient.Models
         public static string GetHash(
             string targetStr,
             byte[] salt,
-            KeyDerivationPrf keyDerivationPrf,
+            KeyDerivationPrf keyDerivationPrf = KeyDerivationPrf.HMACSHA1,
             int iterationCount = 1000,
             int numBytesRequested = 256 / 8
         )
