@@ -7,14 +7,15 @@ namespace WebClient.Models.Managers
 {
     public class AuthManager : IAuthManager
     {
+        private IUserManager _userManager;
 
+        public AuthManager(IUserManager userManager)
+        {
+            _userManager = userManager;
+        }
         public UserInfo Authorization(LoginInfo loginInfo)
         {
-            return new UserInfo{UserName = $"Id : {loginInfo.Username}" ,UserId = loginInfo.Username};
-        }
-        public LoginInfo CreateLoginInfo(string username, string password)
-        {
-            return new LoginInfo{Username= username, Password = password};
+            return _userManager.Find(loginInfo.Mail, loginInfo.Password);
         }
     }
 }

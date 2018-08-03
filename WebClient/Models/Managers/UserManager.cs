@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace WebClient.Models.Managers
 {
-    public class UserManager
+    public class UserManager : IUserManager
     {
         private Context _context;
         private const int ITERATION_COUNT = 1000;
@@ -65,7 +65,7 @@ namespace WebClient.Models.Managers
 
         private UserInfo ConvertUserToUserInfo(User user)
         {
-            return user == null ? default(UserInfo) : new UserInfo{ UserId = user.Id, UserName = user.Name ,Icon = user.Icon};
+            return user == null ? default(UserInfo) : new UserInfo{ UserId = user.Id, UserName = user.Name };
         }
     }
 }
