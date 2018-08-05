@@ -35,12 +35,23 @@ namespace WebClient.Controllers
 
         [Route("create_user")]
         [HttpPost,Authorize]
-        public async Task<IActionResult> CreateUserAsync()
+        public async Task<IActionResult> CreateUserAsync([FromBody]Dictionary<string,string> args)
+        {
+            foreach(var arg in args)
+            {
+                Console.WriteLine($"key {arg.Key} ; value {arg.Value}");
+            }
+            return await Task.Run(() => {
+                return Ok();
+            });
+        }
+        [Route("update_user")]
+        [HttpPost,Authorize]
+        public async Task<IActionResult> UpdateUserAsync([FromBody]Dictionary<string,string> args)
         {
             return await Task.Run(() => {
                 return Ok();
             });
         }
-
     }
 }

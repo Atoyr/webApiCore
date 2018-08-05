@@ -55,34 +55,6 @@ namespace WebClient
                     ClockSkew = TimeSpan.Zero
                 };
             });
-            //.AddJwtBearer("hogehoge" ,options => 
-            //{
-                //options.TokenValidationParameters = new TokenValidationParameters
-                //{
-                    //ValidateIssuer = false,
-                    //ValidateAudience = false,
-                    //ValidateLifetime = false,
-                    //ValidateIssuerSigningKey = true,
-                    //ValidIssuer = jwt.Issuer,
-                    //ValidAudience = jwt.Audience, 
-                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key))
-                //};
-            //});
-            //.AddJwtBearer( options => 
-            //{
-                //options.TokenValidationParameters = new TokenValidationParameters
-                //{
-                    //ValidateIssuer = true,
-                    //ValidateAudience = true,
-                    //ValidateLifetime = true,
-                    ////ValidateIssuerSigningKey = true,
-                    //ValidIssuer = jwt.Issuer,
-                    //ValidAudience = jwt.Audience, 
-                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key)),
-                    //ClockSkew = TimeSpan.Zero
-                //};
-            //});
-
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             // In production, the React files will be served from this directory
@@ -93,7 +65,31 @@ namespace WebClient
             var sqlConBuilder = new SqlConnectionStringBuilder();
 
             var connection = this.Configuration["ConnectionStrings:Context"];
-            services.AddDbContext<Context>(options => options.UseSqlServer(connection));
+            if (string.IsNullOrEmpty(connection))
+            {
+                services.AddDbContext<Context>(options => options.UseInMemoryDatabase());
+                var dbOpt = new DbContextOptionsBuilder<Context>()
+                .UseInMemoryDatabase().Options;
+                using (var context = new Context(dbOpt)){
+                    var salt = Hash.GenerateSalt();
+                    context.Users.Add(new User{Id = new Guid(), Hash = Hash.GetHash("a",salt), Salt = salt});
+                    context.SaveChanges();
+
+                    foreach(var user in context.Users)
+                    {
+                        Console.WriteLine($"Id {user.Id}");
+                        Console.WriteLine($"Hash {user.Hash}");
+                    }
+                }
+            }
+            else
+            {
+                services.AddDbContext<Context>(options => options.UseSqlServer(connection));
+            }
+
+            var serviceProvider = new ServiceCollection()
+                .AddEntityFrameworkInMemoryDatabase()
+                .BuildServiceProvider();
 
             services.AddTransient<ITokenManager, TokenManager>();
             services.AddTransient<IAuthManager, AuthManager>();
