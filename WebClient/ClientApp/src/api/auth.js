@@ -14,6 +14,9 @@ export async function executeGetToken(user){
     return fetch(uri,option)
     .then(res => {
         const responseBodyPromise = res.json()
+        if(!res.Ok){
+            return ({ ok: res.ok })
+        }
         return responseBodyPromise.then(body => ({ body: body, ok: res.ok }))
     });
 }
