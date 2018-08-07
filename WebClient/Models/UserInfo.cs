@@ -4,9 +4,11 @@ namespace WebClient.Models
 {
     public class UserInfo
     {
-        public Guid UserId{set;get;}
-        public string UserCode {set;get;}
-        public string UserName {set;get;}
-        public string Mail {set;get;}
+        public Guid Id{set;get;}
+        public string Code {set;get;}
+        public string Name {set;get;}
+        public string FirstName {set;get;}
+        public string LastName {set;get;}
+        public string Email {set;get;}
     }
 }

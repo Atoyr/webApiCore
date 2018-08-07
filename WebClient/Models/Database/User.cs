@@ -15,8 +15,8 @@ namespace WebClient.Models.Database
         public string FirstName{set;get;}
         [Column("LAST_NAME")]
         public string LastName{set;get;}
-        [Column("MAIL")]
-        public string Mail{set;get;}
+        [Column("EMAIL")]
+        public string Email{set;get;}
         [Column("HASH")]
         public string Hash{set;get;}
         [Column("SALT")]

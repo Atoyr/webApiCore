@@ -19,33 +19,33 @@ namespace WebClient.Models.Managers
             _context = context;
         }
 
-        public UserInfo GetUser(Guid userId)
+        public UserInfo GetUser(Guid id)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            var user = _context.Users.FirstOrDefault(x => x.Id == id);
             return ConvertUserToUserInfo(user);
         }
 
-        public UserInfo Find(string mail, string password)
+        public UserInfo Find(string email, string password)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Mail == mail );
+            var user = _context.Users.FirstOrDefault(x => x.Email == email );
             user = user?.Hash == GetHash(password, user.Salt, KEY_DERIVATION_PRF, ITERATION_COUNT, NUM_BYTES) ? user: null;
             return ConvertUserToUserInfo(user);
         }
 
-        public byte[] GetUserIcon(Guid userId)
+        public byte[] GetUserIcon(Guid id)
         {
-            return _context.Users.FirstOrDefault(x => x.Id == userId)?.Icon;
+            return _context.Users.FirstOrDefault(x => x.Id == id)?.Icon;
         }
 
         public bool CreateUser(
             string code,
             string name,
-            string mail,
+            string email,
             string password,
             byte[] icon,
             string createUser)
         {
-            if (!_context.Users.Any(x => x.Mail == mail))
+            if (!_context.Users.Any(x => x.Email == email))
             {
                 var salt = GenerateSalt();
                 var hashed = GetHash(password, salt, KEY_DERIVATION_PRF, ITERATION_COUNT, NUM_BYTES);
@@ -57,7 +57,7 @@ namespace WebClient.Models.Managers
                     UpdateDateTime = DateTime.UtcNow,
                     Code = code,
                     Name = name,
-                    Mail = mail,
+                    Email = email,
                     Hash = hashed,
                     Salt = salt,
                     Icon = icon
@@ -72,8 +72,7 @@ namespace WebClient.Models.Managers
 
         private UserInfo ConvertUserToUserInfo(User user)
         {
-            Console.WriteLine(user.Mail);
-            return user == null ? default(UserInfo) : new UserInfo{ UserId = user.Id, UserName = user.Name };
+            return user == null ? default(UserInfo) : new UserInfo{ Id = user.Id, Name = user.Name };
         }
     }
 }

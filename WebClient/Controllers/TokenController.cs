@@ -35,7 +35,6 @@ namespace WebClient.Controllers
             var userInfo = _authManager.Authorization(loginInfo);
             if(userInfo != null)
             {
-            Console.WriteLine(userInfo?.UserName);
                 var token = await _tokenManager.GenerateTokenAsync(userInfo);
                 var refreshTokenTask = _tokenManager.GenerateRefreshTokenAsync(token);
                 response = Ok(new {token = token, refreshToken = await refreshTokenTask});
