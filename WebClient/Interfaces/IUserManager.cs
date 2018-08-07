@@ -14,5 +14,6 @@ namespace WebClient.Interfaces
             string password,
             byte[] icon,
             string createUser);
+        byte[] GetUserIcon(Guid userId);
     }
 }

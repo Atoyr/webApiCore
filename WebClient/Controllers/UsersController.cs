@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 using WebClient.Interfaces;
 using WebClient.Models;
 
@@ -23,7 +24,6 @@ namespace WebClient.Controllers
             _userManager = userManager;
         }
 
-        [Route("users")]
         [HttpGet, Authorize]
         public async Task<IActionResult> GetUsersAsync()
         {
@@ -33,16 +33,37 @@ namespace WebClient.Controllers
             });
         }
 
+        public async Task<IActionResult> GetUserAsync()
+        {
+            return await Task.Run(() => {
+                IActionResult response = Unauthorized();
+                return response;
+            });
+        }
+
+        public async Task<IActionResult> GetUserIconAsync([FromQuery]Guid id)
+        {
+            return await Task.Run(() => {
+                IActionResult response = Unauthorized();
+                var icon = _userManager.GetUserIcon(id);
+                if(icon != null)
+                {
+                    response = File(icon,"image/jpg");
+                }
+                return response;
+            });
+        }
+
         [Route("create_user")]
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> CreateUserAsync([FromBody]Dictionary<string,string> args)
         {
-            foreach(var arg in args)
-            {
-                Console.WriteLine($"key {arg.Key} ; value {arg.Value}");
-            }
-            _userManager.CreateUser(args["code"],args["name"],args["mail"],args["password"],null,args["name"]);
+            var code = args.FirstOrDefault(x => x.Key == "code").Value;
+            var name = args.FirstOrDefault(x => x.Key == "name").Value;
+            var mail = args.FirstOrDefault(x => x.Key == "mail").Value;
+            var password = args.FirstOrDefault(x => x.Key == "password").Value;
+            _userManager.CreateUser(code, name, mail, password, null, name);
             return await Task.Run(() => {
                 return Ok();
             });

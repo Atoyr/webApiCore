@@ -32,6 +32,11 @@ namespace WebClient.Models.Managers
             return ConvertUserToUserInfo(user);
         }
 
+        public byte[] GetUserIcon(Guid userId)
+        {
+            return _context.Users.FirstOrDefault(x => x.Id == userId)?.Icon;
+        }
+
         public bool CreateUser(
             string code,
             string name,
