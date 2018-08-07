@@ -11,6 +11,10 @@ namespace WebClient.Models.Database
         public string Code{set;get;}
         [Column("NAME")]
         public string Name{set;get;}
+        [Column("FIRST_NAME")]
+        public string FirstName{set;get;}
+        [Column("LAST_NAME")]
+        public string LastName{set;get;}
         [Column("MAIL")]
         public string Mail{set;get;}
         [Column("HASH")]
