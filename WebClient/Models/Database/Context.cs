@@ -17,5 +17,6 @@ namespace WebClient.Models.Database
         public DbSet<Approval>Approvals{get;set;}
         public DbSet<ApprovalRoute>ApprovalRoutes{get;set;}
         public DbSet<Organization>Organization{get;set;}
+        public DbSet<Authorization>Authorizations{get;set;}
     }
 }

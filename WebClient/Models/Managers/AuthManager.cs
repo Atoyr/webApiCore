@@ -13,6 +13,10 @@ namespace WebClient.Models.Managers
         {
             _userManager = userManager;
         }
+        public UserInfo Authentication(LoginInfo loginInfo)
+        {
+            return _userManager.Find(loginInfo.Mail, loginInfo.Password);
+        }
         public UserInfo Authorization(LoginInfo loginInfo)
         {
             return _userManager.Find(loginInfo.Mail, loginInfo.Password);
