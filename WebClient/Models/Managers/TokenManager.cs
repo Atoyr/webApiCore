@@ -29,7 +29,8 @@ namespace WebClient.Models.Managers
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var claims = new [] {
                 new Claim(JwtRegisteredClaimNames.Email, userInfo.Email),
-                new Claim(JwtRegisteredClaimNames.NameId, "hoge")
+                new Claim(JwtRegisteredClaimNames.GivenName, userInfo.FirstName),
+                new Claim(JwtRegisteredClaimNames.FamilyName, userInfo.LastName)
             };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
