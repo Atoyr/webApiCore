@@ -59,12 +59,16 @@ namespace WebClient.Models.Managers
             return await Task.Run(() => GenerateRefreshToken(token));
         }
 
-        public string ExecuteRefreshToken()
+        public string ExecuteRefreshToken(string token)
         {
-            return GenerateToken();
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+            var mail = jsonToken.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Email).Value;
+            var userInfo = default(UserInfo);
+            return GenerateToken(userInfo);
         }
 
-        public async Task<string> ExecuteRefreshTokenAsync()
+        public async Task<string> ExecuteRefreshTokenAsync(string token)
         {
             return await Task.Run(() => ExecuteRefreshToken());
         }
@@ -73,22 +77,6 @@ namespace WebClient.Models.Managers
         {
             var currentPair = _refreshTokenCollection.FirstOrDefault(x => x.Key == token);
             return !currentPair.Equals( default(KeyValuePair<string,string>)) && currentPair.Value == refreshToken;
-        }
-        private string GenerateToken()
-        {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var claims = new [] {
-                new Claim(JwtRegisteredClaimNames.NameId, "hoge")
-            };
-
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-                _config["Jwt:Issuer"],
-                claims,
-                expires: DateTime.Now.AddMinutes(1),
-                signingCredentials: creds);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
