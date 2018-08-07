@@ -70,7 +70,7 @@ namespace WebClient.Models.Managers
 
         public async Task<string> ExecuteRefreshTokenAsync(string token)
         {
-            return await Task.Run(() => ExecuteRefreshToken());
+            return await Task.Run(() => ExecuteRefreshToken(token));
         }
 
         public bool ValidateRefreshToken(string token, string refreshToken)

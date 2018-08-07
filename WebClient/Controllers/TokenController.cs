@@ -56,10 +56,12 @@ namespace WebClient.Controllers
         {
             Console.WriteLine(values);
             var headers = Request.Headers;
+            var authN = headers["Authorization"];
+            Console.WriteLine($"AuthN: {authN}");
             IActionResult response = Unauthorized();
             if(!string.IsNullOrEmpty(headers["Authorization"]))
             {
-                var token = _tokenManager.ExecuteRefreshToken();
+                var token = _tokenManager.ExecuteRefreshToken(authN);
                 var refreshToken = _tokenManager.GenerateRefreshToken(token);
                 response = Ok(new {token = token, refreshToken = refreshToken});
             }
