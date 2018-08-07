@@ -1,4 +1,3 @@
-
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import "./signin.css";
@@ -25,7 +24,7 @@ class Login extends Component {
         e.preventDefault();
         console.log(e);
         const target = e.target;
-        this.props.requestLoginAsync({username: target.name.value.trim(), password:target.password.value.trim() })
+        this.props.requestLoginAsync({mail: target.mail.value.trim(), password:target.password.value.trim() })
     }
 
     render() {
@@ -35,7 +34,7 @@ class Login extends Component {
             :(
             <Form className='form-signin' onSubmit={this.handleSubmit} >
                 <h1 >Please sign in</h1>
-                <FormControl type="text" id="name" placeholder="Username" required />
+                <FormControl type="text" id="mail" placeholder="Mail" required />
                 <FormControl type="password" id="password" placeholder="Password" required />
                 <div >
                     <label>
@@ -56,10 +55,8 @@ const mapStateToProps = ({auth}) =>({
 })
 function mapDispatchToProps(dispatch) {
     return {
-        requestLoginAsync : (value) => 
-          dispatch(requestLoginAsync({username:value.username,password: value.password})),
-        fetchLoginStateAsync: () => 
-          dispatch(fetchLoginStateAsync())
+        requestLoginAsync : (value) => dispatch(requestLoginAsync({mail:value.mail,password: value.password})),
+        fetchLoginStateAsync: () => dispatch(fetchLoginStateAsync())
     }
 }
 

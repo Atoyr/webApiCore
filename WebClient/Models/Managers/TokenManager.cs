@@ -28,9 +28,9 @@ namespace WebClient.Models.Managers
             return GenerateToken();
         }
 
-        public Task<string> GenerateTokenAsync(UserInfo userInfo)
+        public async Task<string> GenerateTokenAsync(UserInfo userInfo)
         {
-            return Task.Run(() => GenerateToken(userInfo));
+            return await Task.Run(() => GenerateToken(userInfo));
         }
 
         public string GenerateRefreshToken(string token)

@@ -27,7 +27,8 @@ namespace WebClient.Models.Managers
 
         public UserInfo Find(string mail, string password)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Mail == mail && x.Hash == GetHash(password, x.Salt, KEY_DERIVATION_PRF, ITERATION_COUNT, NUM_BYTES));
+            var user = _context.Users.FirstOrDefault(x => x.Mail == mail );
+            user = user?.Hash == GetHash(password, user.Salt, KEY_DERIVATION_PRF, ITERATION_COUNT, NUM_BYTES) ? user: null;
             return ConvertUserToUserInfo(user);
         }
 
@@ -57,6 +58,7 @@ namespace WebClient.Models.Managers
                     Icon = icon
                 };
                 _context.Users.Add(user);
+                _context.SaveChanges();
                 return true;
             }
 
@@ -65,6 +67,7 @@ namespace WebClient.Models.Managers
 
         private UserInfo ConvertUserToUserInfo(User user)
         {
+            Console.WriteLine(user.Mail);
             return user == null ? default(UserInfo) : new UserInfo{ UserId = user.Id, UserName = user.Name };
         }
     }

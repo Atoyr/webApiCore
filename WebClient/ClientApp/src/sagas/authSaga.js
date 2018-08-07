@@ -19,16 +19,17 @@ import { executeGetToken, executeValidateToken , executeRefreshToken} from '../a
 
 function* runRequestLoginAsync(action){
     yield put(executeLogin());
-    console.log(action);
     const user = {
-        username : action.payload.username,
+        mail : action.payload.mail,
         password : action.payload.password
     };
     const res = yield call(executeGetToken,user);
+    console.log(res)
     if (res.ok) {
         yield put(successLogin(res.body));
     }
     else {
+        console.log(res)
         yield put(failLogin(res));
     }
 }

@@ -34,13 +34,15 @@ namespace WebClient.Controllers
         }
 
         [Route("create_user")]
-        [HttpPost,Authorize]
+        [AllowAnonymous]
+        [HttpPost]
         public async Task<IActionResult> CreateUserAsync([FromBody]Dictionary<string,string> args)
         {
             foreach(var arg in args)
             {
                 Console.WriteLine($"key {arg.Key} ; value {arg.Value}");
             }
+            _userManager.CreateUser(args["code"],args["name"],args["mail"],args["password"],null,args["name"]);
             return await Task.Run(() => {
                 return Ok();
             });
