@@ -5,10 +5,11 @@ namespace WebClient.Models.Database
     [Table("AUTHORIZATION")]
     public class Authorization : TableBase
     {
-        [Column("CODE")]
-        public string Code {set;get;}
-        [Column("NAME")]
-        public string Name {set;get;}
-
+        [Column("COMPANY_ID")]
+        public Guid CompanyId {set;get;}
+        [Column("USER_ID")]
+        public Guid UserId {set;get;}
+        [Column("VALUE")]
+        public int Value {set;get;}
     }
 }
