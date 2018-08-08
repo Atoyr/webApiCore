@@ -72,7 +72,14 @@ namespace WebClient.Models.Managers
 
         private UserInfo ConvertUserToUserInfo(User user)
         {
-            return user == null ? default(UserInfo) : new UserInfo{ Id = user.Id, Name = user.Name };
+            return user == null
+                ? default(UserInfo)
+                : new UserInfo{
+                    Id = user.Id,
+                    Name = user.Name,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName };
         }
     }
 }
