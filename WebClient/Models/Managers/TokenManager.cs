@@ -73,6 +73,7 @@ namespace WebClient.Models.Managers
             var firstName = jsonToken.Claims.FirstOrDefault(claim => claim.Type == JwtRegisteredClaimNames.GivenName)?.Value ?? string.Empty;
             var lastName = jsonToken.Claims.FirstOrDefault(claim => claim.Type == JwtRegisteredClaimNames.FamilyName)?.Value ?? string.Empty;
             var updateDateTime = jsonToken.Claims.FirstOrDefault(claim => claim.Type == JwtRegisteredClaimNames.Iat)?.Value ?? string.Empty;
+            Console.WriteLine(id);
             if(!string.IsNullOrEmpty(id))
             {
                 var userInfo = new UserInfo{
@@ -80,7 +81,7 @@ namespace WebClient.Models.Managers
                     Email = email,
                     FirstName = firstName,
                     LastName = lastName,
-                    UpdateDateTime = DateTime.Parse(updateDateTime)
+                    UpdateDateTime = ConvertFromUnixTimestamp(Convert.ToInt32(updateDateTime))
                 };
                 _authManager.ReAuthentication(userInfo);
                 if(userInfo != null)
@@ -102,9 +103,13 @@ namespace WebClient.Models.Managers
             return !currentPair.Equals( default(KeyValuePair<string,string>)) && currentPair.Value == refreshToken;
         }
 
-        private double GetUnixTimestamp()
+        private int GetUnixTimestamp()
         {
-            return (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+            return Convert.ToInt32((DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds);
+        }
+        private DateTime ConvertFromUnixTimestamp(int value)
+        {
+            return DateTimeOffset.FromUnixTimeSeconds(value).UtcDateTime;
         }
     }
 }

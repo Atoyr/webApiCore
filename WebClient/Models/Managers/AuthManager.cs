@@ -22,6 +22,10 @@ namespace WebClient.Models.Managers
         public UserInfo ReAuthentication(UserInfo userInfo)
         {
             var newUserInfo = _userManager.Find(userInfo.Id);
+            Console.WriteLine(userInfo.Id);
+            Console.WriteLine(userInfo.UpdateDateTime);
+            Console.WriteLine(newUserInfo.Id);
+            Console.WriteLine(newUserInfo.UpdateDateTime);
             if(newUserInfo.UpdateDateTime > userInfo.UpdateDateTime)
             {
                 return default(UserInfo);
