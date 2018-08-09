@@ -35,7 +35,7 @@ namespace WebClient.Models.Managers
                 new Claim(JwtRegisteredClaimNames.Email, userInfo.Email),
                 new Claim(JwtRegisteredClaimNames.GivenName, userInfo.FirstName),
                 new Claim(JwtRegisteredClaimNames.FamilyName, userInfo.LastName),
-                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString())
+                new Claim(JwtRegisteredClaimNames.Iat, GetUnixTimestamp().ToString())
             };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
@@ -100,6 +100,11 @@ namespace WebClient.Models.Managers
         {
             var currentPair = _refreshTokenCollection.FirstOrDefault(x => x.Key == token);
             return !currentPair.Equals( default(KeyValuePair<string,string>)) && currentPair.Value == refreshToken;
+        }
+
+        private double GetUnixTimestamp()
+        {
+            return (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
         }
     }
 }
