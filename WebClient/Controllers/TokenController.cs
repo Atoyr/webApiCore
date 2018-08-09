@@ -6,6 +6,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Linq;
 using System.Collections.Generic;
 using WebClient.Interfaces;
 using WebClient.Models;
@@ -54,14 +55,13 @@ namespace WebClient.Controllers
         [HttpPost]
         public IActionResult RefreshToken([FromBody]string values)
         {
-            Console.WriteLine(values);
-            var headers = Request.Headers;
-            var authN = headers["Authorization"];
-            Console.WriteLine($"AuthN: {authN}");
             IActionResult response = Unauthorized();
-            if(!string.IsNullOrEmpty(headers["Authorization"]))
+            var headers = Request.Headers;
+            var authNs = headers["Authorization"].FirstOrDefault()?.Split(' ');
+            if(authNs.Count() == 2 && authNs[0] == "Bearer")
             {
-                var token = _tokenManager.ExecuteRefreshToken(authN);
+                var jwt = authNs[1];
+                var token = _tokenManager.ExecuteRefreshToken(jwt);
                 var refreshToken = _tokenManager.GenerateRefreshToken(token);
                 response = Ok(new {token = token, refreshToken = refreshToken});
             }

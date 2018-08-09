@@ -19,7 +19,7 @@ namespace WebClient.Models.Managers
             _context = context;
         }
 
-        public UserInfo GetUser(Guid id)
+        public UserInfo Find(Guid id)
         {
             var user = _context.Users.FirstOrDefault(x => x.Id == id);
             return ConvertUserToUserInfo(user);
@@ -79,7 +79,8 @@ namespace WebClient.Models.Managers
                     Name = user.Name,
                     Email = user.Email,
                     FirstName = user.FirstName,
-                    LastName = user.LastName };
+                    LastName = user.LastName,
+                    UpdateDateTime = user.UpdateDateTime};
         }
     }
 }

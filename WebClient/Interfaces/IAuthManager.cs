@@ -7,5 +7,7 @@ namespace WebClient.Interfaces
     public interface IAuthManager
     {
         UserInfo Authorization(LoginInfo loginInfo);
+        UserInfo Authentication(LoginInfo loginInfo);
+        UserInfo ReAuthentication(UserInfo userInfo);
     }
 }
