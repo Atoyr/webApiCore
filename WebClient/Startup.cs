@@ -34,10 +34,10 @@ namespace WebClient
             //services.Configure<SystemSettings>(this.Configuration.GetSection("SystemSettings"));
 
             var jwt = new Jwt{
-               Key = this.Configuration["Jwt:Key"] ,
-               Issuer = this.Configuration["Jwt:Issuer"] ,
-               Audience = this.Configuration["Jwt:Audience"]
-            };
+                Key = this.Configuration["Jwt:Key"] ,
+                Issuer = this.Configuration["Jwt:Issuer"] ,
+                Audience = this.Configuration["Jwt:Audience"]
+                };
             Console.WriteLine($"{jwt.Key},{jwt.Issuer},{jwt.Audience}");
             Console.WriteLine(KeyGenerator.GeneratKey());
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
