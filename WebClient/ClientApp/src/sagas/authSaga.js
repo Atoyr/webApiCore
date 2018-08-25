@@ -40,12 +40,14 @@ export function* handleRequestLoginAsync(action){
 function* runRequestRefreshTokenAsync(action){
     const token = yield select(state => state.auth.token);
     const refreshToken = yield select(state => state.auth.refreshToken);
-    const res = yield call(executeRefreshToken, token, refreshToken);
-    if (res.ok) {
-        yield put(successRefreshToken(res));
-    }
-    else {
-        yield put(failRefreshToken(res.status));
+    if (token && refreshToken) {
+        const res = yield call(executeRefreshToken, token, refreshToken);
+        if (res.ok) {
+            yield put(successRefreshToken(res));
+        }
+        else {
+            yield put(failRefreshToken(res.status));
+        }
     }
 }
 export function* handleRequestRefreshTokenAsync(action){
@@ -61,7 +63,6 @@ function* runRequestFetchLoginStateAsync(action){
     if (jwt) {
         if (refreshToken) {
             yield put(requestRefreshTokenAsync({token: jwt, refreshToken: refreshToken}));
-            yield put(successFetchLoginState({ token: jwt, refreshToken: refreshToken }));
         } else{
             const res = yield call(executeValidateToken, jwt);
             if (res.ok) {

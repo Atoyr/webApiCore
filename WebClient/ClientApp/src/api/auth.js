@@ -48,11 +48,12 @@ export async function executeRefreshToken(token, refreshToken){
         redirect: 'follow',
         headers: new Headers({
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Authorization': `Bearer ${token}`
         }),
         body: JSON.stringify(refreshToken)
     }
+    console.log('call executeRefreshToken Option')
     console.log(option)
     return fetch(uri,option)
     .then(res => {

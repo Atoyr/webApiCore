@@ -58,11 +58,19 @@ namespace WebClient.Controllers
             IActionResult response = Unauthorized();
             var headers = Request.Headers;
             var authNs = headers["Authorization"].FirstOrDefault()?.Split(' ');
+            Console.WriteLine("RefreshToken");
+            foreach(var str in authNs)
+            {
+                Console.WriteLine(str);
+            }
             if(authNs.Count() == 2 && authNs[0] == "Bearer")
             {
                 var jwt = authNs[1];
                 var token = _tokenManager.ExecuteRefreshToken(jwt);
                 var refreshToken = _tokenManager.GenerateRefreshToken(token);
+                Console.WriteLine(jwt);
+                Console.WriteLine(token);
+                Console.WriteLine(refreshToken);
                 response = Ok(new {token = token, refreshToken = refreshToken});
             }
             return response;
