@@ -23,8 +23,8 @@ const mapStateToProps = ({auth}) =>({
 })
 function mapDispatchToProps(dispatch) {
     return {
-        fetchLoginStateAsync: () => 
-          dispatch(fetchLoginStateAsync())
+        fetchLoginStateAsync: () =>
+            dispatch(fetchLoginStateAsync())
     }
 }
 
