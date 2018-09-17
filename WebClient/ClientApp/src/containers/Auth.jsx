@@ -14,7 +14,7 @@ class Auth extends Component{
             this.props.children : 
             this.props.auth.isPrepared ?
             <Redirect to={'/login'} /> :
-            <p>loading </p>)
+            <p>loading ???</p>)
     }
 }
 
@@ -23,8 +23,8 @@ const mapStateToProps = ({auth}) =>({
 })
 function mapDispatchToProps(dispatch) {
     return {
-        fetchLoginStateAsync: () => 
-          dispatch(fetchLoginStateAsync())
+        fetchLoginStateAsync: () =>
+            dispatch(fetchLoginStateAsync())
     }
 }
 

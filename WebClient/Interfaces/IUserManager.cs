@@ -5,7 +5,7 @@ namespace WebClient.Interfaces
 {
     public interface IUserManager
     {
-        UserInfo GetUser(Guid userId);
+        UserInfo Find(Guid userId);
         UserInfo Find(string mail,string password);
         bool CreateUser(
             string code,
